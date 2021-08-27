@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest --watchAll --coverage"
+    "test": "jest --watchAll --coverage",
+    "start": "node src/app.js"
   },
   "dependencies": {
+    "@hapi/hapi": "^20.1.5",
     "@types/jest": "^27.0.1",
     "jest": "^27.0.6",
     "node-ts": "^5.1.2",
