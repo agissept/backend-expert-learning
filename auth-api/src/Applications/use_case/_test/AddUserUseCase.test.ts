@@ -20,7 +20,7 @@ describe('AddUserUseCase', () => {
         })
 
         const mockUserRepository = createMock<UserRepository>()
-        const mockPasswordHash = new PasswordHash()
+        const mockPasswordHash = createMock<PasswordHash>()
 
         mockUserRepository.verifyAvailableUsername = jest.fn().mockImplementation(() => Promise.resolve())
         mockPasswordHash.hash = jest.fn().mockImplementation(() => Promise.resolve('encrypted_password'))
