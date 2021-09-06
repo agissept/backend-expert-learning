@@ -1,8 +1,9 @@
 import RegisteredUser from "../../../Domains/users/entities/RegisteredUser";
-import UserRepository from "../../../Domains/users/UserRepository";
 import PasswordHash from "../../security/PasswordHash";
 import AddUserUseCase from "../AddUserUseCase";
 import RegisterUser from "../../../Domains/users/entities/RegisterUser";
+import UserRepository from "../../../Domains/users/UserRepository";
+import {createMock} from "ts-auto-mock";
 
 describe('AddUserUseCase', () => {
     it('should orchestrating the add user action correctly', async () => {
@@ -18,7 +19,7 @@ describe('AddUserUseCase', () => {
             fullname: useCasePayload.fullname,
         })
 
-        const mockUserRepository = new UserRepository()
+        const mockUserRepository = createMock<UserRepository>()
         const mockPasswordHash = new PasswordHash()
 
         mockUserRepository.verifyAvailableUsername = jest.fn().mockImplementation(() => Promise.resolve())

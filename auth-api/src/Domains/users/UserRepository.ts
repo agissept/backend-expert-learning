@@ -1,11 +1,8 @@
-class UserRepository {
-    async addUser(registerUser: any) {
-        throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED');
-    }
+import RegisteredUser from "./entities/RegisteredUser";
 
-    async verifyAvailableUsername(username: string) {
-        throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED');
-    }
+interface UserRepository {
+    addUser(registerUser: any) : Promise<RegisteredUser>
+    verifyAvailableUsername(username: string) : void
 }
 
 export default UserRepository
