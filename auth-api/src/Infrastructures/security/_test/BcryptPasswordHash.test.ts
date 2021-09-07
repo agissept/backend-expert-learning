@@ -1,18 +1,17 @@
 import bcrypt from 'bcrypt'
-import BcryptPasswordHash from "../BcryptPasswordHash";
+import BcryptPasswordHash from '../BcryptPasswordHash'
 
 describe('BcryptPasswordHash', () => {
-    describe('hash function',  () => {
-        it('should encrypt password correctly', async () => {
-            const spyHash = jest.spyOn(bcrypt, 'hash')
-            const bcryptPasswordHash = new BcryptPasswordHash(bcrypt)
+  describe('hash function', () => {
+    it('should encrypt password correctly', async () => {
+      const spyHash = jest.spyOn(bcrypt, 'hash')
+      const bcryptPasswordHash = new BcryptPasswordHash(bcrypt)
 
-            const encryptedPassword = await bcryptPasswordHash.hash('plain_password')
+      const encryptedPassword = await bcryptPasswordHash.hash('plain_password')
 
-            expect(typeof encryptedPassword).toEqual('string')
-            expect(encryptedPassword).not.toEqual('plain_password')
-            expect(spyHash).toBeCalledWith('plain_password', 10)
-
-        });
-    });
+      expect(typeof encryptedPassword).toEqual('string')
+      expect(encryptedPassword).not.toEqual('plain_password')
+      expect(spyHash).toBeCalledWith('plain_password', 10)
+    })
+  })
 })

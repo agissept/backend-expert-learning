@@ -1,28 +1,28 @@
 import autoBind from 'auto-bind'
-import AddUserUseCase from "../../../../Applications/use_case/AddUserUseCase";
-import {Request, ResponseToolkit} from "@hapi/hapi";
+import AddUserUseCase from '../../../../Applications/use_case/AddUserUseCase'
+import { Request, ResponseToolkit } from '@hapi/hapi'
 
 class UsersHandler {
     private container: any;
 
-    constructor(container: any) {
-        this.container = container;
+    constructor (container: any) {
+      this.container = container
 
-        autoBind(this)
+      autoBind(this)
     }
 
-    async postUserHandler(request: Request, h: ResponseToolkit) {
-        const addUserUseCase = this.container.getInstance(AddUserUseCase.name)
-        const addedUser = await addUserUseCase.execute(request.payload)
+    async postUserHandler (request: Request, h: ResponseToolkit) {
+      const addUserUseCase = this.container.getInstance(AddUserUseCase.name)
+      const addedUser = await addUserUseCase.execute(request.payload)
 
-        const response = h.response({
-            status: 'success',
-            data: {
-                addedUser,
-            },
-        });
-        response.code(201);
-        return response;
+      const response = h.response({
+        status: 'success',
+        data: {
+          addedUser
+        }
+      })
+      response.code(201)
+      return response
     }
 }
 

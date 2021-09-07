@@ -3,10 +3,10 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
-    ".(ts|tsx)": "ts-jest"
+    '.(ts|tsx)': 'ts-jest'
   },
-  "setupFiles": [
-    "<rootDir>config.ts",
-    "dotenv/config"
+  setupFiles: [
+    '<rootDir>config.ts',
+    'dotenv/config'
   ]
 }

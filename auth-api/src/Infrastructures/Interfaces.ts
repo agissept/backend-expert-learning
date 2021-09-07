@@ -1,5 +1,5 @@
-import UserRepository from "../Domains/users/UserRepository";
-import PasswordHash from "../Applications/security/PasswordHash";
+import UserRepository from '../Domains/users/UserRepository'
+import PasswordHash from '../Applications/security/PasswordHash'
 
 interface Interfaces{
     UserRepository: UserRepository,

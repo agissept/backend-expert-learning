@@ -1,4 +1,4 @@
-import RegisteredUser from "./entities/RegisteredUser";
+import RegisteredUser from './entities/RegisteredUser'
 
 interface UserRepository {
     addUser(registerUser: any) : Promise<RegisteredUser>
