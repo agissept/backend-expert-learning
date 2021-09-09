@@ -1,7 +1,7 @@
 import RegisteredUser from '../../../Domains/users/entities/RegisteredUser'
 import PasswordHash from '../../security/PasswordHash'
 import AddUserUseCase from '../AddUserUseCase'
-import RegisterUser from '../../../Domains/users/entities/RegisterUser'
+import RegisterUser from '../../../Domains/users/entities/RegisterUser/RegisterUser'
 import UserRepository from '../../../Domains/users/UserRepository'
 import { createMock } from 'ts-auto-mock'
 
@@ -22,7 +22,7 @@ describe('AddUserUseCase', () => {
     const mockUserRepository = createMock<UserRepository>()
     const mockPasswordHash = createMock<PasswordHash>()
 
-    mockUserRepository.verifyAvailableUsername = jest.fn().mockImplementation(() => Promise.resolve())
+    mockUserRepository.isUsernameUsed = jest.fn().mockImplementation(() => Promise.resolve())
     mockPasswordHash.hash = jest.fn().mockImplementation(() => Promise.resolve('encrypted_password'))
     mockUserRepository.addUser = jest.fn().mockImplementation(() => Promise.resolve(expectedRegisteredUser))
 
@@ -34,7 +34,7 @@ describe('AddUserUseCase', () => {
     const registerUser = await getUserUseCase.execute(useCasePayload)
 
     expect(registerUser).toStrictEqual(expectedRegisteredUser)
-    expect(mockUserRepository.verifyAvailableUsername).toBeCalledWith(useCasePayload.username)
+    expect(mockUserRepository.isUsernameUsed).toBeCalledWith(useCasePayload.username)
     expect(mockPasswordHash.hash).toBeCalledWith(useCasePayload.password)
     expect(mockUserRepository.addUser).toBeCalledWith(new RegisterUser({
       username: useCasePayload.username,

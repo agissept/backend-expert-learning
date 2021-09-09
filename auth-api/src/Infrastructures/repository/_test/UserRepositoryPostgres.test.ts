@@ -1,8 +1,7 @@
 import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper'
 import pool from '../../database/postgres/pool'
 import UserRepositoryPostgres from '../UserRepositoryPostgres'
-import InvariantError from '../../../Commons/exceptions/InvariantError'
-import RegisterUser from '../../../Domains/users/entities/RegisterUser'
+import RegisterUser from '../../../Domains/users/entities/RegisterUser/RegisterUser'
 import RegisteredUser from '../../../Domains/users/entities/RegisteredUser'
 
 describe('UserRepositoryPostgres', () => {
@@ -15,17 +14,17 @@ describe('UserRepositoryPostgres', () => {
   })
 
   describe('verifyAvailableUsername function', () => {
-    it('should throw InvariantError when username not available', async () => {
+    it('should return true when username not available', async () => {
       await UsersTableTestHelper.addUser({ username: 'dicoding' })
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
 
-      await expect(userRepositoryPostgres.verifyAvailableUsername('dicoding')).rejects.toThrowError(InvariantError)
+      await expect(userRepositoryPostgres.isUsernameUsed('dicoding')).resolves.toEqual(true)
     })
 
-    it('should not throw InvariantError when username not available', async () => {
+    it('should return false when username not available', async () => {
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
 
-      await expect(userRepositoryPostgres.verifyAvailableUsername('dicoding')).resolves.not.toThrowError(InvariantError)
+      await expect(userRepositoryPostgres.isUsernameUsed('dicoding')).resolves.toEqual(false)
     })
   })
 

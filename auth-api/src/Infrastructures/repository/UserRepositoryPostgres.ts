@@ -1,7 +1,6 @@
 import { Pool } from 'pg'
-import RegisterUser from '../../Domains/users/entities/RegisterUser'
+import RegisterUser from '../../Domains/users/entities/RegisterUser/RegisterUser'
 import RegisteredUser from '../../Domains/users/entities/RegisteredUser'
-import InvariantError from '../../Commons/exceptions/InvariantError'
 import UserRepository from '../../Domains/users/UserRepository'
 
 class UserRepositoryPostgres implements UserRepository {
@@ -27,17 +26,14 @@ class UserRepositoryPostgres implements UserRepository {
       return new RegisteredUser({ ...result.rows[0] })
     }
 
-    async verifyAvailableUsername (username: string) {
+    async isUsernameUsed (username: string) {
       const query = {
         text: 'SELECT username FROM users WHERE username = $1',
         values: [username]
       }
 
       const result = await this.pool.query(query)
-
-      if (result.rowCount) {
-        throw new InvariantError('username tidak tersedia')
-      }
+      return !!result.rowCount
     }
 }
 

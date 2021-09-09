@@ -2,7 +2,7 @@ import RegisteredUser from './entities/RegisteredUser'
 
 interface UserRepository {
     addUser(registerUser: any) : Promise<RegisteredUser>
-    verifyAvailableUsername(username: string) : void
+    isUsernameUsed(username: string) : Promise<Boolean>
 }
 
 export default UserRepository

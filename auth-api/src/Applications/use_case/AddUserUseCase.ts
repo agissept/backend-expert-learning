@@ -1,9 +1,9 @@
 import UserRepository from '../../Domains/users/UserRepository'
 import PasswordHash from '../security/PasswordHash'
-import RegisterUser from '../../Domains/users/entities/RegisterUser'
+import RegisterUserFactory from '../../Domains/users/entities/RegisterUser/RegisterUserFactory'
 
 class AddUserUseCase {
-    private userRepository: UserRepository;
+    private readonly userRepository: UserRepository;
     private passwordHash: PasswordHash;
 
     constructor ({ userRepository, passwordHash } : {userRepository: UserRepository, passwordHash: PasswordHash}) {
@@ -12,8 +12,9 @@ class AddUserUseCase {
     }
 
     async execute (useCasePayload: any) {
-      const registerUser = new RegisterUser(useCasePayload)
-      await this.userRepository.verifyAvailableUsername(registerUser.username)
+      const factory = new RegisterUserFactory(this.userRepository)
+      const registerUser = await factory.create(useCasePayload)
+      await this.userRepository.isUsernameUsed(registerUser.username)
       registerUser.password = await this.passwordHash.hash(registerUser.password)
       return this.userRepository.addUser(registerUser)
     }
