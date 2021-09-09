@@ -3,7 +3,6 @@ import PasswordHash from '../../security/PasswordHash'
 import AddUserUseCase from '../AddUserUseCase'
 import RegisterUser from '../../../Domains/users/entities/RegisterUser/RegisterUser'
 import UserRepository from '../../../Domains/users/UserRepository'
-import { createMock } from 'ts-auto-mock'
 
 describe('AddUserUseCase', () => {
   it('should orchestrating the add user action correctly', async () => {
@@ -19,8 +18,8 @@ describe('AddUserUseCase', () => {
       fullname: useCasePayload.fullname
     })
 
-    const mockUserRepository = createMock<UserRepository>()
-    const mockPasswordHash = createMock<PasswordHash>()
+    const mockUserRepository = <UserRepository>{}
+    const mockPasswordHash = <PasswordHash>{}
 
     mockUserRepository.isUsernameUsed = jest.fn().mockImplementation(() => Promise.resolve())
     mockPasswordHash.hash = jest.fn().mockImplementation(() => Promise.resolve('encrypted_password'))

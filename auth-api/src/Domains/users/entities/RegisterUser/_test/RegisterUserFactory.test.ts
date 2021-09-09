@@ -1,5 +1,4 @@
 import RegisterUserFactory from '../RegisterUserFactory'
-import { createMock } from 'ts-auto-mock'
 import UserRepository from '../../../UserRepository'
 
 describe('RegisterUserFactory', () => {
@@ -11,7 +10,7 @@ describe('RegisterUserFactory', () => {
       password: 'abc'
     }
     // Action
-    const mockUserRepository = createMock<UserRepository>()
+    const mockUserRepository = <UserRepository>{}
     mockUserRepository.isUsernameUsed = jest.fn().mockImplementation(() => Promise.resolve(true))
 
     const factory = new RegisterUserFactory(mockUserRepository)
