@@ -3,6 +3,7 @@ import NewAuth from "../../../Domains/authentications/entities/NewAuth";
 import AuthenticationTokenManager from "../../security/AuthenticationTokenManager";
 import PasswordHash from "../../security/PasswordHash";
 import LoginUserUseCase from "../LoginUserUseCase";
+import AuthenticationRepository from "../../../Domains/authentications/AuthenticationRepository";
 
 
 describe('GetAuthenticationUseCase', () => {
