@@ -1,6 +1,13 @@
-class RefreshAuthenticationUseCase {
-    constructor(param: any) {
+import AuthenticationTokenManager from "../security/AuthenticationTokenManager";
+import AuthenticationRepository from "../../Domains/authentications/AuthenticationRepository";
 
+class RefreshAuthenticationUseCase {
+    private authenticationTokenManager: AuthenticationTokenManager;
+    private authenticationRepository: AuthenticationRepository;
+
+    constructor({authenticationTokenManager, authenticationRepository}: any) {
+        this.authenticationTokenManager = authenticationTokenManager
+        this.authenticationRepository = authenticationRepository
     }
 
 
