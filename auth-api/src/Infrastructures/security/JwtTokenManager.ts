@@ -1,4 +1,5 @@
 import AuthenticationTokenManager from "../../Applications/security/AuthenticationTokenManager";
+import InvariantError from "../../Commons/exceptions/InvariantError";
 
 class JwtTokenManager implements AuthenticationTokenManager{
     private jwt;
@@ -11,6 +12,12 @@ class JwtTokenManager implements AuthenticationTokenManager{
 
     async createRefreshToken(payload: any) {
         return this.jwt.generate(payload, process.env.REFRESH_TOKEN_KEY);
+    }
+
+    decodePayload(payload: any): any {
+    }
+
+    verifyRefreshToken(token: string): void {
     }
 
 }
