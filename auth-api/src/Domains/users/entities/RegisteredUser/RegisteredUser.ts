@@ -1,4 +1,4 @@
-import RegisteredUserPayload from './model/RegisteredUserPayload'
+import RegisteredUserPayload from '../model/RegisteredUserPayload'
 
 class RegisteredUser {
     id: string

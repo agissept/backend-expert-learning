@@ -1,6 +1,6 @@
 import { Pool } from 'pg'
 import RegisterUser from '../../Domains/users/entities/RegisterUser/RegisterUser'
-import RegisteredUser from '../../Domains/users/entities/RegisteredUser'
+import RegisteredUser from '../../Domains/users/entities/RegisteredUser/RegisteredUser'
 import UserRepository from '../../Domains/users/UserRepository'
 
 class UserRepositoryPostgres implements UserRepository {

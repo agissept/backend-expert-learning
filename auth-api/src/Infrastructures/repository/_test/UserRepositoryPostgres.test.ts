@@ -2,7 +2,7 @@ import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper'
 import pool from '../../database/postgres/pool'
 import UserRepositoryPostgres from '../UserRepositoryPostgres'
 import RegisterUser from '../../../Domains/users/entities/RegisterUser/RegisterUser'
-import RegisteredUser from '../../../Domains/users/entities/RegisteredUser'
+import RegisteredUser from '../../../Domains/users/entities/RegisteredUser/RegisteredUser'
 
 describe('UserRepositoryPostgres', () => {
   afterEach(async () => {

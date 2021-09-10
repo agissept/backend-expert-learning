@@ -1,4 +1,4 @@
-import RegisteredUser from '../../../Domains/users/entities/RegisteredUser'
+import RegisteredUser from '../../../Domains/users/entities/RegisteredUser/RegisteredUser'
 import PasswordHash from '../../security/PasswordHash'
 import AddUserUseCase from '../AddUserUseCase'
 import RegisterUser from '../../../Domains/users/entities/RegisterUser/RegisterUser'
