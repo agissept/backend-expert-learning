@@ -1,5 +1,5 @@
 import PasswordHash from '../../Applications/security/PasswordHash'
-import AuthenticationError from "../../Commons/exceptions/AuthenticationError";
+import AuthenticationError from '../../Commons/exceptions/AuthenticationError'
 
 class BcryptPasswordHash implements PasswordHash {
     private bcrypt: any;
@@ -14,12 +14,12 @@ class BcryptPasswordHash implements PasswordHash {
       return this.bcrypt.hash(password, this.saltRound)
     }
 
-    async comparePassword(password: string, encryptedPassword: string): Promise<void> {
-        const result = await this.bcrypt.compare(password, encryptedPassword);
+    async comparePassword (password: string, encryptedPassword: string): Promise<void> {
+      const result = await this.bcrypt.compare(password, encryptedPassword)
 
-        if (!result) {
-            throw new AuthenticationError('kredensial yang Anda masukkan salah');
-        }
+      if (!result) {
+        throw new AuthenticationError('kredensial yang Anda masukkan salah')
+      }
     }
 }
 

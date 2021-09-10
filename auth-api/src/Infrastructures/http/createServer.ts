@@ -12,11 +12,11 @@ const createServer = async (container: any) => {
 
   await server.register([
     {
-        plugin: users,
-        options: {container}
+      plugin: users,
+      options: { container }
     }, {
-        plugin: authentications,
-        options: {container}
+      plugin: authentications,
+      options: { container }
     }
   ])
 
@@ -44,6 +44,7 @@ const createServer = async (container: any) => {
         status: 'error',
         message: 'terjadi kegagalan pada server kami'
       })
+
       newResponse.code(500)
       return newResponse
     }

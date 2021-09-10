@@ -1,9 +1,9 @@
-import UserRepository from "../../Domains/users/UserRepository";
-import AuthenticationTokenManager from "../security/AuthenticationTokenManager";
-import PasswordHash from "../security/PasswordHash";
-import UserLogin from "../../Domains/users/entities/UserLogin/UserLogin";
-import NewAuth from "../../Domains/authentications/entities/NewAuth";
-import AuthenticationRepository from "../../Domains/authentications/AuthenticationRepository";
+import UserRepository from '../../Domains/users/UserRepository'
+import AuthenticationTokenManager from '../security/AuthenticationTokenManager'
+import PasswordHash from '../security/PasswordHash'
+import UserLogin from '../../Domains/users/entities/UserLogin/UserLogin'
+import NewAuth from '../../Domains/authentications/entities/NewAuth'
+import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
 
 class LoginUserUseCase {
     userRepository: UserRepository;
@@ -11,12 +11,12 @@ class LoginUserUseCase {
     authenticationRepository: AuthenticationRepository;
     passwordHash: PasswordHash;
 
-    constructor({
-                    userRepository,
-                    authenticationRepository,
-                    authenticationTokenManager,
-                    passwordHash
-                }:
+    constructor ({
+      userRepository,
+      authenticationRepository,
+      authenticationTokenManager,
+      passwordHash
+    }:
                     {
                         userRepository: UserRepository,
                         authenticationRepository: AuthenticationRepository,
@@ -24,29 +24,28 @@ class LoginUserUseCase {
                         passwordHash: PasswordHash
                     }
     ) {
-        this.userRepository = userRepository;
-        this.authenticationRepository = authenticationRepository;
-        this.authenticationTokenManager = authenticationTokenManager;
-        this.passwordHash = passwordHash;
+      this.userRepository = userRepository
+      this.authenticationRepository = authenticationRepository
+      this.authenticationTokenManager = authenticationTokenManager
+      this.passwordHash = passwordHash
     }
 
-    async execute(useCasePayload: { password: string; username: string }) {
-        const {username, password} = new UserLogin(useCasePayload);
+    async execute (useCasePayload: { password: string; username: string }) {
+      const { username, password } = new UserLogin(useCasePayload)
 
-        const encryptedPassword = await this.userRepository.getPasswordByUsername(username)
-        await this.passwordHash.comparePassword(password, encryptedPassword)
-        const id = await this.userRepository.getIdByUsername(username)
+      const encryptedPassword = await this.userRepository.getPasswordByUsername(username)
+      await this.passwordHash.comparePassword(password, encryptedPassword)
+      const id = await this.userRepository.getIdByUsername(username)
 
-        const accessToken = await this.authenticationTokenManager.createAccessToken({username, id})
-        const refreshToken = await this.authenticationTokenManager.createRefreshToken({username, id})
+      const accessToken = await this.authenticationTokenManager.createAccessToken({ username, id })
+      const refreshToken = await this.authenticationTokenManager.createRefreshToken({ username, id })
 
-        const newAuthentication = new NewAuth({accessToken, refreshToken})
+      const newAuthentication = new NewAuth({ accessToken, refreshToken })
 
-        await this.authenticationRepository.addToken(newAuthentication.refreshToken)
+      await this.authenticationRepository.addToken(newAuthentication.refreshToken)
 
-        return newAuthentication
+      return newAuthentication
     }
-
 }
 
 export default LoginUserUseCase

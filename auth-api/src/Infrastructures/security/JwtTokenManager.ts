@@ -1,25 +1,24 @@
-import AuthenticationTokenManager from "../../Applications/security/AuthenticationTokenManager";
-import InvariantError from "../../Commons/exceptions/InvariantError";
+import AuthenticationTokenManager from '../../Applications/security/AuthenticationTokenManager'
 
-class JwtTokenManager implements AuthenticationTokenManager{
+class JwtTokenManager implements AuthenticationTokenManager {
     private jwt;
-    constructor(jwt: any) {
-        this.jwt = jwt;
-    }
-    async createAccessToken(payload: any) {
-        return this.jwt.generate(payload, process.env.ACCESS_TOKEN_KEY);
+    constructor (jwt: any) {
+      this.jwt = jwt
     }
 
-    async createRefreshToken(payload: any) {
-        return this.jwt.generate(payload, process.env.REFRESH_TOKEN_KEY);
+    async createAccessToken (payload: any) {
+      return this.jwt.generate(payload, process.env.ACCESS_TOKEN_KEY)
     }
 
-    decodePayload(payload: any): any {
+    async createRefreshToken (payload: any) {
+      return this.jwt.generate(payload, process.env.REFRESH_TOKEN_KEY)
     }
 
-    verifyRefreshToken(token: string): void {
+    decodePayload (payload: any): any {
     }
 
+    verifyRefreshToken (token: string): void {
+    }
 }
 
 export default JwtTokenManager

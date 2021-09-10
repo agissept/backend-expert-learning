@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import pool from "../src/Infrastructures/database/postgres/pool";
+import pool from '../src/Infrastructures/database/postgres/pool'
 const AuthenticationsTableTestHelper = {
   async addToken (token: string) {
     const query = {
