@@ -3,3 +3,4 @@ interface AuthenticationRepository {
     checkAvailabilityToken(token: string): boolean
     deleteToken(token: string): void
 }
+export default AuthenticationRepository
