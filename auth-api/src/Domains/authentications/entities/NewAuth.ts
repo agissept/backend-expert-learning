@@ -9,7 +9,7 @@ class NewAuth {
         this.refreshToken = payload.refreshToken;
     }
 
-     verifyPayload (payload: any) {
+     private verifyPayload (payload: any) {
         const {accessToken, refreshToken} = payload;
 
         if (!accessToken || !refreshToken) {
