@@ -9,6 +9,9 @@ import AddUserUseCase from '../Applications/use_case/AddUserUseCase'
 import {nameof} from 'ts-simple-nameof'
 import Interfaces from './Interfaces'
 import LoginUserUseCase from "../Applications/use_case/LoginUserUseCase";
+import AuthenticationRepositoryPostgres from "./repository/AuthenticationRepositoryPostgres";
+import JwtTokenManager from "./security/JwtTokenManager";
+import Jwt from '@hapi/jwt'
 
 const container = createContainer()
 
@@ -36,6 +39,24 @@ container.register([
             dependencies: [
                 {
                     concrete: bcrypt
+                }
+            ]
+        }
+    },
+    {
+        key: nameof<Interfaces>(i => i.AuthenticationRepository),
+        Class: AuthenticationRepositoryPostgres,
+        parameter : {
+            dependencies: []
+        }
+    },
+    {
+        key: nameof<Interfaces>(i => i.AuthenticationTokenManager),
+        Class: JwtTokenManager,
+        parameter : {
+            dependencies: [
+                {
+                    concrete: Jwt.token
                 }
             ]
         }
