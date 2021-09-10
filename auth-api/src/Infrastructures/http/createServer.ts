@@ -1,5 +1,6 @@
 import Hapi from '@hapi/hapi'
 import users from '../../Interfaces/http/api/users'
+import authentications from '../../Interfaces/http/api/authentications'
 import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator'
 import ClientError from '../../Commons/exceptions/ClientError'
 
@@ -11,8 +12,11 @@ const createServer = async (container: any) => {
 
   await server.register([
     {
-      plugin: users,
-      options: { container }
+        plugin: users,
+        options: {container}
+    }, {
+        plugin: authentications,
+        options: {container}
     }
   ])
 
