@@ -12,6 +12,7 @@ import LoginUserUseCase from '../Applications/use_case/LoginUserUseCase'
 import AuthenticationRepositoryPostgres from './repository/AuthenticationRepositoryPostgres'
 import JwtTokenManager from './security/JwtTokenManager'
 import Jwt from '@hapi/jwt'
+import RefreshAuthenticationUseCase from '../Applications/use_case/RefreshAuthenticationUseCase'
 
 const container = createContainer()
 
@@ -47,7 +48,11 @@ container.register([
     key: nameof<Interfaces>(i => i.AuthenticationRepository),
     Class: AuthenticationRepositoryPostgres,
     parameter: {
-      dependencies: []
+      dependencies: [
+        {
+          concrete: pool
+        }
+      ]
     }
   },
   {
@@ -104,6 +109,24 @@ container.register([
           name: 'passwordHash',
           internal: 'PasswordHash'
         }
+      ]
+    }
+  },
+  {
+    key: RefreshAuthenticationUseCase.name,
+    Class: RefreshAuthenticationUseCase,
+    parameter: {
+      injectType: 'destructuring',
+      dependencies: [
+        {
+          name: 'authenticationTokenManager',
+          internal: 'AuthenticationTokenManager'
+        },
+        {
+          name: 'authenticationRepository',
+          internal: 'AuthenticationRepository'
+        }
+
       ]
     }
   }
