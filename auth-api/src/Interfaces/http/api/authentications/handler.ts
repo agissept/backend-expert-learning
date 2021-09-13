@@ -3,6 +3,7 @@ import LoginUserUseCase from '../../../../Applications/use_case/LoginUserUseCase
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import autoBind from 'auto-bind'
 import RefreshAuthenticationUseCase from '../../../../Applications/use_case/RefreshAuthenticationUseCase'
+import LogoutUserUseCase from '../../../../Applications/use_case/LogoutUserUseCase'
 
 class AuthenticationsHandler {
     private readonly container: Container;
@@ -36,6 +37,14 @@ class AuthenticationsHandler {
           accessToken
         }
       })
+    }
+
+    async deleteAuthenticationHandler (requestPayload: Request) {
+      const logoutUserUseCase = this.container.getInstance(LogoutUserUseCase.name)
+      logoutUserUseCase.execute(requestPayload.payload)
+      return {
+        status: 'success'
+      }
     }
 }
 
