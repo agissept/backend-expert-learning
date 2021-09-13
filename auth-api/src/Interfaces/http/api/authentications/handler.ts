@@ -2,6 +2,7 @@ import { Container } from 'instances-container'
 import LoginUserUseCase from '../../../../Applications/use_case/LoginUserUseCase'
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import autoBind from 'auto-bind'
+import RefreshAuthenticationUseCase from '../../../../Applications/use_case/RefreshAuthenticationUseCase'
 
 class AuthenticationsHandler {
     private readonly container: Container;
@@ -24,6 +25,17 @@ class AuthenticationsHandler {
       })
       response.code(201)
       return response
+    }
+
+    async putAuthenticationHandler (requestPayload: Request, h: ResponseToolkit) {
+      const refreshAuthenticationUseCase = this.container.getInstance(RefreshAuthenticationUseCase.name) as RefreshAuthenticationUseCase
+      const token = await refreshAuthenticationUseCase.execute(requestPayload.payload)
+      return h.response({
+        status: 'success',
+        data: {
+          token
+        }
+      })
     }
 }
 
