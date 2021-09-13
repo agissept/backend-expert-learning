@@ -41,7 +41,7 @@ class AuthenticationsHandler {
 
     async deleteAuthenticationHandler (requestPayload: Request) {
       const logoutUserUseCase = this.container.getInstance(LogoutUserUseCase.name)
-      logoutUserUseCase.execute(requestPayload.payload)
+      await logoutUserUseCase.execute(requestPayload.payload)
       return {
         status: 'success'
       }
