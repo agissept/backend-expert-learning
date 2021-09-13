@@ -183,5 +183,20 @@ describe('/authentications endpoint', () => {
       expect(responseJson.status).toEqual('success')
       expect(responseJson.data.accessToken).toBeDefined()
     })
+
+    it('should return 400 when payload not contain refresh token', async () => {
+      const server = await createServer(container)
+
+      const response = await server.inject({
+        method: 'PUT',
+        url: '/authentications',
+        payload: {}
+      })
+
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(400)
+      expect(responseJson.status).toEqual('fail')
+      expect(responseJson.message).toEqual('harus mengirimkan token refresh')
+    })
   })
 })
