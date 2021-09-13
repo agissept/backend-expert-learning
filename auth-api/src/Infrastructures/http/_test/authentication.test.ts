@@ -215,5 +215,25 @@ describe('/authentications endpoint', () => {
       expect(responseJson.status).toEqual('fail')
       expect(responseJson.message).toEqual('refresh token harus string')
     })
+
+    it('should return 400 if refresh token not valid', async () => {
+      // Arrange
+      const server = await createServer(container)
+
+      // Action
+      const response = await server.inject({
+        method: 'PUT',
+        url: '/authentications',
+        payload: {
+          refreshToken: 'invalid_refresh_token'
+        }
+      })
+
+      // Assert
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(400)
+      expect(responseJson.status).toEqual('fail')
+      expect(responseJson.message).toEqual('refresh token tidak valid')
+    })
   })
 })
