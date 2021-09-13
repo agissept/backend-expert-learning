@@ -257,4 +257,23 @@ describe('/authentications endpoint', () => {
       expect(responseJson.message).toEqual('refresh token tidak ditemukan di database')
     })
   })
+
+  describe('when DELETE /authentications', () => {
+    it('should response 200 if refresh token valid', async () => {
+      const server = await createServer(container)
+      const refreshToken = 'refresh_token'
+      await AuthenticationsTableTestHelper.addToken(refreshToken)
+
+      const response = await server.inject({
+        method: 'DELETE',
+        url: '/authentications',
+        payload: {
+          refreshToken
+        }
+      })
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(200)
+      expect(responseJson.status).toEqual('success')
+    })
+  })
 })
