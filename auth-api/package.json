@@ -8,6 +8,7 @@
     "start:dev": "nodemon",
     "test": "jest -i",
     "test:watch": "jest --watchAll --coverage -i",
+    "test:watch:change": "jest --watch --coverage -i --verbose false",
     "migrate": "ts-node ./node_modules/node-pg-migrate/bin/node-pg-migrate -j ts",
     "migrate:test": "ts-node ./node_modules/node-pg-migrate/bin/node-pg-migrate -j ts --envPath .env.testing",
     "prepare": "ts-patch install -s"
