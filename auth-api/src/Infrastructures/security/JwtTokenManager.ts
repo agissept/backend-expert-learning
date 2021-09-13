@@ -17,7 +17,7 @@ class JwtTokenManager implements AuthenticationTokenManager {
 
     decodePayload (payload: any): any {
       const artifacts = this.jwt.decode(payload)
-      return artifacts.decode.payload
+      return artifacts.decoded.payload
     }
 
     verifyRefreshToken (token: string): void {
