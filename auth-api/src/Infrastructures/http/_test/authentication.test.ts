@@ -144,4 +144,44 @@ describe('/authentications endpoint', () => {
       expect(responseJson.message).toEqual('username dan password harus string')
     })
   })
+
+  describe('when PUT /authentications', () => {
+    it('should return 200 and new access token', async () => {
+      const server = await createServer(container)
+
+      await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: {
+          username: 'dicoding',
+          password: 'secret',
+          fullname: 'Dicoding Indonesia'
+        }
+      })
+
+      const loginResponse = await server.inject({
+        method: 'POST',
+        url: '/authentications',
+        payload: {
+          username: 'dicoding',
+          password: 'secret'
+        }
+      })
+
+      const { data: { refreshToken } } = JSON.parse(loginResponse.payload)
+
+      const response = await server.inject({
+        method: 'PUT',
+        url: '/authentications',
+        payload: {
+          refreshToken
+        }
+      })
+
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(200)
+      expect(responseJson.status).toEqual('success')
+      expect(responseJson.data.accessToken).toBeDefined()
+    })
+  })
 })
