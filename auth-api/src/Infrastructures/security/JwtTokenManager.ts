@@ -1,4 +1,5 @@
 import AuthenticationTokenManager from '../../Applications/security/AuthenticationTokenManager'
+import InvariantError from '../../Commons/exceptions/InvariantError'
 
 class JwtTokenManager implements AuthenticationTokenManager {
     private jwt;
@@ -15,9 +16,17 @@ class JwtTokenManager implements AuthenticationTokenManager {
     }
 
     decodePayload (payload: any): any {
+      const artifacts = this.jwt.decode(payload)
+      return artifacts.decode.payload
     }
 
     verifyRefreshToken (token: string): void {
+      try {
+        const artifacts = this.jwt.decode(token)
+        this.jwt.verify(artifacts, process.env.REFRESH_TOKEN_KEY)
+      } catch (error) {
+        throw new InvariantError('refresh token tidak valid')
+      }
     }
 }
 
