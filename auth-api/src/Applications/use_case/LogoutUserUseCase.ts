@@ -1,10 +1,18 @@
-class LogoutUserUseCase {
-  constructor (payload: any) {
+import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
 
+class LogoutUserUseCase {
+  private readonly authenticationRepository: AuthenticationRepository
+
+  constructor ({ authenticationRepository }: any) {
+    this.authenticationRepository = authenticationRepository
   }
 
   async execute (payload: any): Promise<void> {
     this.verify(payload)
+    const { refreshToken } = payload
+
+    await this.authenticationRepository.checkAvailabilityToken(refreshToken)
+    await this.authenticationRepository.deleteToken(refreshToken)
   }
 
   private verify (payload: any) {
