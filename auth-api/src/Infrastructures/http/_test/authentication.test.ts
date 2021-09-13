@@ -235,5 +235,26 @@ describe('/authentications endpoint', () => {
       expect(responseJson.status).toEqual('fail')
       expect(responseJson.message).toEqual('refresh token tidak valid')
     })
+
+    it('should return 400 if refresh token not registered in database', async () => {
+      // Arrange
+      const server = await createServer(container)
+      const refreshToken = await container.getInstance('AuthenticationTokenManager').createRefreshToken({ username: 'dicoding' })
+
+      // Action
+      const response = await server.inject({
+        method: 'PUT',
+        url: '/authentications',
+        payload: {
+          refreshToken
+        }
+      })
+
+      // Assert
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(400)
+      expect(responseJson.status).toEqual('fail')
+      expect(responseJson.message).toEqual('refresh token tidak ditemukan di database')
+    })
   })
 })
