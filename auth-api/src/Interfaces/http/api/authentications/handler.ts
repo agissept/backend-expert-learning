@@ -29,11 +29,11 @@ class AuthenticationsHandler {
 
     async putAuthenticationHandler (requestPayload: Request, h: ResponseToolkit) {
       const refreshAuthenticationUseCase = this.container.getInstance(RefreshAuthenticationUseCase.name) as RefreshAuthenticationUseCase
-      const token = await refreshAuthenticationUseCase.execute(requestPayload.payload)
+      const accessToken = await refreshAuthenticationUseCase.execute(requestPayload.payload)
       return h.response({
         status: 'success',
         data: {
-          token
+          accessToken
         }
       })
     }
