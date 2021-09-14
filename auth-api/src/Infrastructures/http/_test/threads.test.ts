@@ -36,5 +36,22 @@ describe('/threads endpoint', () => {
       expect(responseJson.data.addedThread.title).toEqual(requestPayload.title)
       expect(responseJson.data.addedThread.owner).toEqual(userId)
     })
+
+    it('should response 401 when unauthenticated ', async () => {
+      const requestPayload = {
+        title: 'ini adalah judul',
+        body: 'ini adalah konten'
+      }
+
+      const server = await createServer(container)
+
+      const response = await server.inject({
+        method: 'POST',
+        url: '/threads',
+        payload: requestPayload
+      })
+
+      expect(response.statusCode).toEqual(401)
+    })
   })
 })
