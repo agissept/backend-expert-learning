@@ -14,6 +14,9 @@ import JwtTokenManager from './security/JwtTokenManager'
 import Jwt from '@hapi/jwt'
 import RefreshAuthenticationUseCase from '../Applications/use_case/RefreshAuthenticationUseCase'
 import LogoutUserUseCase from '../Applications/use_case/LogoutUserUseCase'
+import AddThreadUseCase from '../Applications/use_case/Thread/AddThreadUseCase'
+import ThreadRepositoryPostgres from './repository/ThreadRepositoryPostgres'
+import IdGeneratorNanoId from './util/IdGenerator/IdGeneratorNanoId'
 
 const container = createContainer()
 
@@ -63,6 +66,30 @@ container.register([
       dependencies: [
         {
           concrete: Jwt.token
+        }
+      ]
+    }
+  }, {
+    key: 'IdGenerator',
+    Class: IdGeneratorNanoId,
+    parameter: {
+      dependencies: [
+        {
+          concrete: nanoid
+        }
+      ]
+    }
+  },
+  {
+    key: 'ThreadRepository',
+    Class: ThreadRepositoryPostgres,
+    parameter: {
+      dependencies: [
+        {
+          concrete: pool
+        },
+        {
+          internal: 'IdGenerator'
         }
       ]
     }
@@ -140,8 +167,19 @@ container.register([
           name: 'authenticationRepository',
           internal: 'AuthenticationRepository'
         }
-
       ]
+    }
+  },
+  {
+    key: AddThreadUseCase.name,
+    Class: AddThreadUseCase,
+    parameter: {
+      injectType: 'destructuring',
+      dependencies: [{
+        name: 'threadRepository',
+        internal: 'ThreadRepository'
+      }]
+
     }
   }
 ])
