@@ -19,12 +19,12 @@ class ThreadRepositoryPostgres implements ThreadRepository {
         values: [threadId, ...Object.values(newThread)]
       }
 
-      const { rows } = await this.pool.query(query)
-      if (!rows.length) {
+      const { rowCount } = await this.pool.query(query)
+      if (!rowCount) {
         throw new Error('data gagal ditambahkan')
       }
 
-      return new AddedThread(rows[0].id, newThread)
+      return new AddedThread(threadId, newThread)
     }
 }
 
