@@ -36,6 +36,7 @@ describe('NewThread entities', () => {
     // Action
     const newThread = new NewThread(payload, userId)
     expect(newThread).toBeInstanceOf(NewThread)
+    expect(newThread.userId).toEqual(userId)
     expect(newThread.title).toEqual(payload.title)
     expect(newThread.body).toEqual(payload.body)
 
