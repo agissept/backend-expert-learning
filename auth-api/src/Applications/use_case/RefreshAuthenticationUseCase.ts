@@ -1,5 +1,6 @@
 import AuthenticationTokenManager from '../security/AuthenticationTokenManager'
 import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
+import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
 
 class RefreshAuthenticationUseCase {
     private authenticationTokenManager: AuthenticationTokenManager;
@@ -10,7 +11,7 @@ class RefreshAuthenticationUseCase {
       this.authenticationRepository = authenticationRepository
     }
 
-    async execute (useCasePayload: any): Promise<void> {
+    async execute (useCasePayload: UnvalidatedPayload): Promise<void> {
       this.verify(useCasePayload)
       const { refreshToken } = useCasePayload
 
@@ -21,7 +22,7 @@ class RefreshAuthenticationUseCase {
       return this.authenticationTokenManager.createAccessToken({ username, id })
     }
 
-    private verify (payload: any) {
+    private verify (payload: UnvalidatedPayload) {
       const { refreshToken } = payload
 
       if (!refreshToken) {

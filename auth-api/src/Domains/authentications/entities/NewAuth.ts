@@ -1,15 +1,17 @@
+import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
+
 class NewAuth {
     accessToken: string;
     refreshToken: string;
 
-    constructor (payload: any) {
+    constructor (payload: UnvalidatedPayload) {
       this.verifyPayload(payload)
 
       this.accessToken = payload.accessToken
       this.refreshToken = payload.refreshToken
     }
 
-    private verifyPayload (payload: any) {
+    private verifyPayload (payload: UnvalidatedPayload) {
       const { accessToken, refreshToken } = payload
 
       if (!accessToken || !refreshToken) {

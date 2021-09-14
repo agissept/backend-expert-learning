@@ -1,6 +1,7 @@
 import UserRepository from '../../Domains/users/UserRepository'
 import PasswordHash from '../security/PasswordHash'
 import RegisterUserFactory from '../../Domains/users/entities/RegisterUser/RegisterUserFactory'
+import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
 
 class AddUserUseCase {
     private readonly userRepository: UserRepository;
@@ -11,7 +12,7 @@ class AddUserUseCase {
       this.passwordHash = passwordHash
     }
 
-    async execute (useCasePayload: any) {
+    async execute (useCasePayload: UnvalidatedPayload) {
       const factory = new RegisterUserFactory(this.userRepository)
       const registerUser = await factory.create(useCasePayload)
       await this.userRepository.isUsernameUsed(registerUser.username)

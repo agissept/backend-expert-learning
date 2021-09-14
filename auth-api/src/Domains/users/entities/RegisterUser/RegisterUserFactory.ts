@@ -1,5 +1,6 @@
 import RegisterUser from './RegisterUser'
 import UserRepository from '../../UserRepository'
+import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
 
 class RegisterUserFactory {
   userRepository: UserRepository
@@ -8,7 +9,7 @@ class RegisterUserFactory {
     this.userRepository = userRepository
   }
 
-  async create (payload: any): Promise<RegisterUser> {
+  async create (payload: UnvalidatedPayload): Promise<RegisterUser> {
     const registerUser = new RegisterUser(payload)
     if (await this.userRepository.isUsernameUsed(registerUser.username)) {
       throw new Error('REGISTER_USER.USERNAME_IS_TAKEN')

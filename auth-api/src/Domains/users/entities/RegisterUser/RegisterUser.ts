@@ -1,9 +1,11 @@
+import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
+
 class RegisterUser {
   username: string
   password: string
   fullname: string
 
-  constructor ({ username, password, fullname }: any) {
+  constructor ({ username, password, fullname }: UnvalidatedPayload) {
     if (!username || !password || !fullname) {
       throw new Error('REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY')
     }

@@ -1,4 +1,5 @@
 import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
+import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
 
 class LogoutUserUseCase {
   private readonly authenticationRepository: AuthenticationRepository
@@ -7,7 +8,7 @@ class LogoutUserUseCase {
     this.authenticationRepository = authenticationRepository
   }
 
-  async execute (payload: any): Promise<void> {
+  async execute (payload: UnvalidatedPayload): Promise<void> {
     this.verify(payload)
     const { refreshToken } = payload
 
@@ -15,7 +16,7 @@ class LogoutUserUseCase {
     await this.authenticationRepository.deleteToken(refreshToken)
   }
 
-  private verify (payload: any) {
+  private verify (payload: UnvalidatedPayload) {
     const { refreshToken } = payload
 
     if (!refreshToken) {
