@@ -1,6 +1,7 @@
 import NewThread from '../../../../Domains/threads/entities/NewThread'
 import AddThreadUseCase from '../AddThreadUseCase'
 import ThreadRepository from '../../../../Domains/threads/ThreadRepository'
+import AddedThread from '../../../../Domains/threads/entities/AddedThread'
 
 describe('AddThreadUseCase', () => {
   it('should orchestrating the add user action correctly', async () => {
@@ -10,15 +11,13 @@ describe('AddThreadUseCase', () => {
     }
 
     const userId = 'user-1'
+    const threadId = 'thread-1'
 
-    const expectedThread = new NewThread({
-      title: useCasePayload.title,
-      body: useCasePayload.body
-    }, userId)
+    const expectedThread = new AddedThread(threadId, new NewThread(useCasePayload, userId))
 
     const mockThreadRepository = <ThreadRepository>{}
 
-    mockThreadRepository.addThread = jest.fn().mockImplementation(() => Promise.resolve())
+    mockThreadRepository.addThread = jest.fn().mockImplementation(() => Promise.resolve(expectedThread))
 
     const addThreadUseCase = new AddThreadUseCase({ threadRepository: mockThreadRepository })
 

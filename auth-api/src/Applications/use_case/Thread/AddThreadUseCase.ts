@@ -12,8 +12,7 @@ class AddThreadUseCase {
 
     async execute (payload: UnvalidatedPayload, userId: string) {
       const newThread = new NewThread(payload, userId)
-      await this.threadRepository.addThread(newThread)
-      return newThread
+      return await this.threadRepository.addThread(newThread)
     }
 }
 
