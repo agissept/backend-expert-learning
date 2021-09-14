@@ -15,11 +15,11 @@ class ThreadsHandler {
     async postThreadHandler ({ payload, auth }: Request, h: ResponseToolkit) {
       const addThreadUseCase = this.container.getInstance('AddThreadUseCase') as AddThreadUseCase
       const { id: userId } = auth.credentials
-      const newThread = await addThreadUseCase.execute(payload, userId as string)
+      const addedThread = await addThreadUseCase.execute(payload, userId as string)
       const response = h.response({
         status: 'success',
         data: {
-          newThread
+          addedThread
         }
       })
       response.code(201)
