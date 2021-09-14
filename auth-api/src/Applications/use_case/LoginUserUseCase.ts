@@ -4,6 +4,7 @@ import PasswordHash from '../security/PasswordHash'
 import UserLogin from '../../Domains/users/entities/UserLogin/UserLogin'
 import NewAuth from '../../Domains/authentications/entities/NewAuth'
 import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
+import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
 
 class LoginUserUseCase {
     userRepository: UserRepository;
@@ -30,7 +31,7 @@ class LoginUserUseCase {
       this.passwordHash = passwordHash
     }
 
-    async execute (useCasePayload: { password: string; username: string }) {
+    async execute (useCasePayload: UnvalidatedPayload) {
       const { username, password } = new UserLogin(useCasePayload)
 
       const encryptedPassword = await this.userRepository.getPasswordByUsername(username)

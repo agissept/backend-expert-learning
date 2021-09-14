@@ -1,10 +1,11 @@
 import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
 import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
+import UseCaseConstructor from '../../Commons/interface/UseCaseConstructor'
 
 class LogoutUserUseCase {
   private readonly authenticationRepository: AuthenticationRepository
 
-  constructor ({ authenticationRepository }: any) {
+  constructor ({ authenticationRepository }: UseCaseConstructor) {
     this.authenticationRepository = authenticationRepository
   }
 

@@ -2,12 +2,13 @@ import UserRepository from '../../Domains/users/UserRepository'
 import PasswordHash from '../security/PasswordHash'
 import RegisterUserFactory from '../../Domains/users/entities/RegisterUser/RegisterUserFactory'
 import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
+import UseCaseConstructor from '../../Commons/interface/UseCaseConstructor'
 
 class AddUserUseCase {
     private readonly userRepository: UserRepository;
     private passwordHash: PasswordHash;
 
-    constructor ({ userRepository, passwordHash } : {userRepository: UserRepository, passwordHash: PasswordHash}) {
+    constructor ({ userRepository, passwordHash } : UseCaseConstructor) {
       this.userRepository = userRepository
       this.passwordHash = passwordHash
     }

@@ -1,12 +1,13 @@
 import AuthenticationTokenManager from '../security/AuthenticationTokenManager'
 import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
 import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
+import UseCaseConstructor from '../../Commons/interface/UseCaseConstructor'
 
 class RefreshAuthenticationUseCase {
     private authenticationTokenManager: AuthenticationTokenManager;
     private authenticationRepository: AuthenticationRepository;
 
-    constructor ({ authenticationTokenManager, authenticationRepository }: any) {
+    constructor ({ authenticationTokenManager, authenticationRepository }: UseCaseConstructor) {
       this.authenticationTokenManager = authenticationTokenManager
       this.authenticationRepository = authenticationRepository
     }

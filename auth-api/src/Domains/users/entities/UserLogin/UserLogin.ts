@@ -1,8 +1,10 @@
+import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
+
 class UserLogin {
     username: string;
     password: string;
 
-    constructor ({ username, password }: any) {
+    constructor ({ username, password }: UnvalidatedPayload) {
       if (!username || !password) {
         throw new Error('USER_LOGIN.NOT_CONTAIN_NEEDED_PROPERTY')
       }

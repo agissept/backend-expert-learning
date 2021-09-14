@@ -16,7 +16,7 @@ class AuthenticationsHandler {
 
     async postAuthenticationHandler (request: Request, h: ResponseToolkit) {
       const loginUserUseCase = this.container.getInstance('LoginUserUseCase') as LoginUserUseCase
-      const { accessToken, refreshToken } = await loginUserUseCase.execute(request.payload as any)
+      const { accessToken, refreshToken } = await loginUserUseCase.execute(request.payload)
       const response = h.response({
         status: 'success',
         data: {
