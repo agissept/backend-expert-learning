@@ -1,4 +1,4 @@
-import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
+import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
 
 class NewComment {
     userId: string;

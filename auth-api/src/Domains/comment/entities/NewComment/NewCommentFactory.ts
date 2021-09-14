@@ -1,5 +1,5 @@
-import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
-import ThreadRepository from '../../threads/ThreadRepository'
+import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
+import ThreadRepository from '../../../threads/ThreadRepository'
 import NewComment from './NewComment'
 
 class NewCommentFactory {

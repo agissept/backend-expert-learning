@@ -1,4 +1,4 @@
-import ThreadRepository from '../../../threads/ThreadRepository'
+import ThreadRepository from '../../../../threads/ThreadRepository'
 import NewCommentFactory from '../NewCommentFactory'
 import NewComment from '../NewComment'
 
