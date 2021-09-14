@@ -5,15 +5,15 @@ class NewThread {
     title: string;
     body: string;
 
-    constructor (payload: UnvalidatedPayload, userId: String) {
+    constructor (payload: UnvalidatedPayload, userId: string) {
       this.verify(payload, userId)
 
-      this.userId = payload.userId
+      this.userId = userId
       this.title = payload.title
       this.body = payload.body
     }
 
-    verify (payload: UnvalidatedPayload, userId: String) {
+    verify (payload: UnvalidatedPayload, userId: string) {
       const { title, body } = payload
 
       if (!title || !body || !userId) {
