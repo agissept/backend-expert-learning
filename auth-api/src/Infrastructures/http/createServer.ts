@@ -3,8 +3,9 @@ import users from '../../Interfaces/http/api/users'
 import authentications from '../../Interfaces/http/api/authentications'
 import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator'
 import ClientError from '../../Commons/exceptions/ClientError'
+import { Container } from 'instances-container'
 
-const createServer = async (container: any) => {
+const createServer = async (container: Container) => {
   const server = Hapi.server({
     host: process.env.HOST,
     port: process.env.PORT

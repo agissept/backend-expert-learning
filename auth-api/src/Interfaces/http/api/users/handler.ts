@@ -6,7 +6,7 @@ import { Container } from 'instances-container'
 class UsersHandler {
   private container: Container;
 
-  constructor (container: any) {
+  constructor (container: Container) {
     this.container = container
 
     autoBind(this)
