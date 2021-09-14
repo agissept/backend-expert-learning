@@ -4,6 +4,8 @@ import authentications from '../../Interfaces/http/api/authentications'
 import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator'
 import ClientError from '../../Commons/exceptions/ClientError'
 import { Container } from 'instances-container'
+import Jwt from '@hapi/jwt'
+import threads from '../../Interfaces/http/api/threads'
 
 const createServer = async (container: Container) => {
   const server = Hapi.server({
@@ -13,10 +15,36 @@ const createServer = async (container: Container) => {
 
   await server.register([
     {
+      plugin: Jwt.plugin
+    }
+  ])
+
+  server.auth.strategy('forumapi_jwt', 'jwt', {
+    keys: process.env.ACCESS_TOKEN_KEY,
+    verify: {
+      aud: false,
+      iss: false,
+      sub: false,
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE
+    },
+    validate: (artifacts: any) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id
+      }
+    })
+  })
+
+  await server.register([
+    {
       plugin: users,
       options: { container }
     }, {
       plugin: authentications,
+      options: { container }
+    },
+    {
+      plugin: threads,
       options: { container }
     }
   ])
