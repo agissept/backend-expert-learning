@@ -26,6 +26,10 @@ class ThreadRepositoryPostgres implements ThreadRepository {
 
       return new AddedThread(threadId, newThread)
     }
+
+    isThreadHasCreated (threadId: string): Promise<boolean> {
+      return Promise.resolve(false)
+    }
 }
 
 export default ThreadRepositoryPostgres
