@@ -17,6 +17,8 @@ import LogoutUserUseCase from '../Applications/use_case/LogoutUserUseCase'
 import AddThreadUseCase from '../Applications/use_case/Thread/AddThreadUseCase'
 import ThreadRepositoryPostgres from './repository/ThreadRepositoryPostgres'
 import IdGeneratorNanoId from './util/IdGenerator/IdGeneratorNanoId'
+import AddCommentUseCase from '../Applications/use_case/Comment/AddCommentUseCase'
+import CommentRepositoryPostgres from './repository/CommentRepositoryPostgres'
 
 const container = createContainer()
 
@@ -83,6 +85,20 @@ container.register([
   {
     key: 'ThreadRepository',
     Class: ThreadRepositoryPostgres,
+    parameter: {
+      dependencies: [
+        {
+          concrete: pool
+        },
+        {
+          internal: 'IdGenerator'
+        }
+      ]
+    }
+  },
+  {
+    key: 'CommentRepository',
+    Class: CommentRepositoryPostgres,
     parameter: {
       dependencies: [
         {
@@ -179,7 +195,23 @@ container.register([
         name: 'threadRepository',
         internal: 'ThreadRepository'
       }]
-
+    }
+  },
+  {
+    key: AddCommentUseCase.name,
+    Class: AddCommentUseCase,
+    parameter: {
+      injectType: 'destructuring',
+      dependencies: [
+        {
+          name: 'threadRepository',
+          internal: 'ThreadRepository'
+        },
+        {
+          name: 'commentRepository',
+          internal: 'CommentRepository'
+        }
+      ]
     }
   }
 ])

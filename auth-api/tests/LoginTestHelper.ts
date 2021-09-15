@@ -6,9 +6,8 @@ import JwtTokenManager from '../src/Infrastructures/security/JwtTokenManager'
 import hapiAuthJwt from '@hapi/jwt'
 
 const LoginTestHelper = {
-  async getUserAccessToken (id = '123') {
-    const username = 'test-user'
-    await UsersTableTestHelper.addUser({ id })
+  async getUserAccessToken (id = '123', username = 'test-user') {
+    await UsersTableTestHelper.addUser({ id, username })
 
     const authenticationTokenManager = new JwtTokenManager(hapiAuthJwt.token)
     const accessToken = await authenticationTokenManager.createAccessToken({ username, id })
