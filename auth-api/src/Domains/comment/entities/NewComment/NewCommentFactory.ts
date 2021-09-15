@@ -11,7 +11,7 @@ class NewCommentFactory {
     async create (payload:UnvalidatedPayload, userId: string, threadId: string) {
       const newComment = new NewComment(payload, userId, threadId)
       if (!await this.threadRepository.isThreadHasCreated(threadId)) {
-        throw new Error('NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION')
+        throw new Error('NEW_COMMENT.THREAD_ID_IS_INVALID')
       }
 
       return newComment
