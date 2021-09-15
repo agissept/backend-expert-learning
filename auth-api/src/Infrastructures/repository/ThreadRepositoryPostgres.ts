@@ -27,8 +27,15 @@ class ThreadRepositoryPostgres implements ThreadRepository {
       return new AddedThread(threadId, newThread)
     }
 
-    isThreadHasCreated (threadId: string): Promise<boolean> {
-      return Promise.resolve(false)
+    async isThreadHasCreated (threadId: string): Promise<boolean> {
+      const query = {
+        text: 'SELECT id FROM threads WHERE id = $1',
+        values: [threadId]
+      }
+
+      const { rowCount } = await this.pool.query(query)
+
+      return !!rowCount
     }
 }
 
