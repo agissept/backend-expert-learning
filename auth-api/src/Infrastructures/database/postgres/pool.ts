@@ -2,10 +2,13 @@
 import dotenv from 'dotenv'
 import { Pool } from 'pg'
 
-if (process.env.NODE_ENV === 'test') {
-  dotenv.config({ path: '.env.testing' })
-} else {
-  dotenv.config()
+const getPool = () => {
+  if (process.env.NODE_ENV === 'test') {
+    dotenv.config({ path: '.env.testing' })
+  } else {
+    dotenv.config()
+  }
+  return new Pool()
 }
 
-export default new Pool()
+export default getPool()

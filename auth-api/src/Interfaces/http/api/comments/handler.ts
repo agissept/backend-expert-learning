@@ -2,6 +2,7 @@ import { Container } from 'instances-container'
 import autoBind from 'auto-bind'
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import AddCommentUseCase from '../../../../Applications/use_case/Comment/AddCommentUseCase'
+import DeleteCommentUseCase from '../../../../Applications/use_case/Comment/DeleteCommentUseCase'
 
 class CommentsHandler {
     private container: Container
@@ -25,6 +26,18 @@ class CommentsHandler {
           addedComment
         }
       }).code(201)
+    }
+
+    async deleteCommentHandler ({ auth, params }: Request) {
+      const { id: userId } = auth.credentials
+      const { threadId, commentId } = params
+
+      const deleteCommentUseCase = this.container.getInstance(DeleteCommentUseCase.name) as DeleteCommentUseCase
+      await deleteCommentUseCase.execute(userId as string, threadId, commentId)
+
+      return {
+        status: 'success'
+      }
     }
 }
 
