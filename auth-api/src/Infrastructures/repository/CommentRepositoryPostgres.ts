@@ -13,6 +13,18 @@ class CommentRepositoryPostgres implements CommentRepository {
       this.idGenerator = idGenerator
     }
 
+    getDetailComment (commentId: string): Promise<any> {
+      throw new Error('Method not implemented.')
+    }
+
+    deleteComment (commentId: string): Promise<void> {
+      throw new Error('Method not implemented.')
+    }
+
+    isCommentAvailableInThread (threadId: string, commentId: string): Promise<Boolean> {
+      throw new Error('Method not implemented.')
+    }
+
     async addComment (newComment: NewComment): Promise<AddedComment> {
       const commentId = `comment-${this.idGenerator.generate()}`
       const query = {
