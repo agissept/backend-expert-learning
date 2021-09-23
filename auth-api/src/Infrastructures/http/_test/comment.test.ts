@@ -52,4 +52,56 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(addedComment.owner).toStrictEqual(commentCreator)
     })
   })
+
+  describe('when delete /threads/{threadId}/comments', () => {
+    it('should response 200', async () => {
+      const threadCreator = 'user-112'
+
+      const threadPayload = {
+        title: 'ini adalah thread user-1',
+        body: 'ini adalah judul'
+      }
+
+      const server = await createServer(container)
+      const accessTokenThreadCreator = await LoginTestHelper.getUserAccessToken(threadCreator)
+      const threadResponse = await server.inject({
+        method: 'POST',
+        url: '/threads',
+        payload: threadPayload,
+        headers: {
+          Authorization: `Bearer ${accessTokenThreadCreator}`
+        }
+      })
+
+      const threadId = JSON.parse(threadResponse.payload).data.addedThread.id
+      const commentCreator = 'user-3'
+      const commentCreatorUsername = 'comment-user'
+      const accessTokenCommentCreator = await LoginTestHelper.getUserAccessToken(commentCreator, commentCreatorUsername)
+      const commentPayload = {
+        content: 'ini adalah komentar'
+      }
+
+      const commentResponse = await server.inject({
+        method: 'POST',
+        url: `/threads/${threadId}/comments`,
+        payload: commentPayload,
+        headers: {
+          Authorization: `Bearer ${accessTokenCommentCreator}`
+        }
+      })
+      const commentId = JSON.parse(commentResponse.payload).data.addedComment.id
+
+      const deleteCommentResponse = await server.inject({
+        method: 'DELETE',
+        url: `/threads/${threadId}/comments/${commentId}`,
+        headers: {
+          Authorization: `Bearer ${accessTokenCommentCreator}`
+        }
+      })
+
+      const { status } = JSON.parse(deleteCommentResponse.payload)
+      expect(deleteCommentResponse.statusCode).toStrictEqual(200)
+      expect(status).toStrictEqual('success')
+    })
+  })
 })
