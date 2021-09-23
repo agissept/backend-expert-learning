@@ -1,4 +1,6 @@
 import InvariantError from './InvariantError'
+import NotFoundError from './NotFoundError'
+import AuthorizationError from './AuthorizationError'
 
 class DomainErrorTranslator {
   private static directories : { [key: string]: any } = {
@@ -13,7 +15,13 @@ class DomainErrorTranslator {
     'REFRESH_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('refresh token harus string'),
     'DELETE_AUTHENTICATION_USE_CASE.NOT_CONTAIN_REFRESH_TOKEN': new InvariantError('harus mengirimkan token refresh'),
     'DELETE_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('refresh token harus string'),
-    'NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada')
+    'NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat membuat thread baru karena yang dibutuhkan tidak ada'),
+    'NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada'),
+    'NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('idak dapat membuat komentar baru karena tipe data tidak sesuai'),
+    'NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat komentar baru karena properti yang dibutuhkan tidak ada'),
+    'NEW_COMMENT.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat membuat komentar baru karena thread tidak valid'),
+    'DELETE_COMMENT.CANNOT_WRITE_THIS_RESOURCE': new AuthorizationError('tidak dapat menghapus komentar ini akses tidak valid'),
+    'DELETE_COMMENT.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus komentar karena thread komentar tidak ada')
   }
 
   static translate (error: Error) {
