@@ -3,6 +3,7 @@ import IdGenerator from '../util/IdGenerator/IdGenerator'
 import CommentRepository from '../../Domains/comment/CommentRepository'
 import NewComment from '../../Domains/comment/entities/NewComment/NewComment'
 import AddedComment from '../../Domains/comment/entities/AddedComment/AddedComment'
+import DetailComment from '../../Domains/comment/model/DetailComment'
 
 class CommentRepositoryPostgres implements CommentRepository {
     private pool: Pool
@@ -13,12 +14,32 @@ class CommentRepositoryPostgres implements CommentRepository {
       this.idGenerator = idGenerator
     }
 
-    getDetailComment (commentId: string): Promise<any> {
-      throw new Error('Method not implemented.')
+    async getDetailComment (commentId: string): Promise<DetailComment> {
+      const query = {
+        text: 'SELECT * FROM comments WHERE id = $1',
+        values: [commentId]
+      }
+      const { rows, rowCount } = await this.pool.query(query)
+
+      if (!rowCount) {
+        return undefined as unknown as DetailComment
+      }
+
+      return {
+        id: rows[0].id,
+        userId: rows[0].user_id
+      }
     }
 
-    deleteComment (commentId: string): Promise<void> {
-      throw new Error('Method not implemented.')
+    async deleteComment (commentId: string): Promise<void> {
+      const query = {
+        text: 'DELETE FROM comments WHERE id = $1 RETURNING id',
+        values: [commentId]
+      }
+      const { rowCount } = await this.pool.query(query)
+      if (!rowCount) {
+        throw new Error('data gagal dihapus')
+      }
     }
 
     isCommentAvailableInThread (threadId: string, commentId: string): Promise<Boolean> {
