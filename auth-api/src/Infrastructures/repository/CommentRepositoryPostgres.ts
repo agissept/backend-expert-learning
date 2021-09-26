@@ -2,7 +2,6 @@ import { Pool } from 'pg'
 import IdGenerator from '../util/IdGenerator/IdGenerator'
 import CommentRepository from '../../Domains/comment/CommentRepository'
 import NewComment from '../../Domains/comment/factory/NewComment/NewComment'
-import AddedComment from '../../Domains/comment/factory/AddedComment/AddedComment'
 import CommentDTO from '../../Domains/comment/model/RepositoryModel/CommentDTO'
 
 class CommentRepositoryPostgres implements CommentRepository {
@@ -64,7 +63,7 @@ class CommentRepositoryPostgres implements CommentRepository {
       throw new Error('Method not implemented.')
     }
 
-    async addComment (newComment: NewComment): Promise<AddedComment> {
+    async addComment (newComment: NewComment): Promise<string> {
       const commentId = `comment-${this.idGenerator.generate()}`
       const query = {
         text: 'INSERT INTO comments VALUES($1, $2, $3, $4) RETURNING id',
@@ -76,7 +75,7 @@ class CommentRepositoryPostgres implements CommentRepository {
         throw new Error('data gagal ditambahkan')
       }
 
-      return new AddedComment(commentId, newComment)
+      return commentId
     }
 }
 
