@@ -1,8 +1,8 @@
 import { Pool } from 'pg'
 import IdGenerator from '../util/IdGenerator/IdGenerator'
 import CommentRepository from '../../Domains/comment/CommentRepository'
-import NewComment from '../../Domains/comment/factory/NewComment/NewComment'
 import CommentDTO from '../../Domains/comment/model/RepositoryModel/CommentDTO'
+import NewComment from '../../Domains/comment/model/DomainModel/NewComment'
 
 class CommentRepositoryPostgres implements CommentRepository {
     private pool: Pool

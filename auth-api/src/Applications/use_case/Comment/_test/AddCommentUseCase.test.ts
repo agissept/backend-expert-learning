@@ -1,7 +1,7 @@
 import AddCommentUseCase from '../AddCommentUseCase'
 import ThreadRepository from '../../../../Domains/threads/ThreadRepository'
 import CommentRepository from '../../../../Domains/comment/CommentRepository'
-import NewComment from '../../../../Domains/comment/factory/NewComment/NewComment'
+import NewComment from '../../../../Domains/comment/model/DomainModel/NewComment'
 
 describe('AddCommentUseCase', () => {
   it('should orchestrating the add comment action correctly', async () => {
@@ -11,7 +11,7 @@ describe('AddCommentUseCase', () => {
     const userId = 'user-123'
     const threadId = 'thread-123'
     const commentId = 'comment-123'
-    const newComment = new NewComment(payload, userId, threadId)
+    const newComment: NewComment = { content: payload.content, threadId, userId }
 
     const expectedComment = { id: commentId, owner: newComment.userId, content: newComment.content }
 
@@ -24,7 +24,6 @@ describe('AddCommentUseCase', () => {
 
     const addedComment = await addCommentUseCase.execute(payload, userId, threadId)
     expect(addedComment).toStrictEqual(expectedComment)
-    expect(commentRepository.addComment).toBeCalledWith(new NewComment(payload, userId, threadId)
-    )
+    expect(commentRepository.addComment).toBeCalledWith(newComment)
   })
 })

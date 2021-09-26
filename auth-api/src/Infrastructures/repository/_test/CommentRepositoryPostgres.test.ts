@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import IdGenerator from '../../util/IdGenerator/IdGenerator'
 import CommentRepositoryPostgres from '../CommentRepositoryPostgres'
-import NewComment from '../../../Domains/comment/factory/NewComment/NewComment'
+import NewComment from '../../../Domains/comment/model/DomainModel/NewComment'
 
 describe('CommentRepositoryPostgres', () => {
   it('should throw error when add data is failed', () => {

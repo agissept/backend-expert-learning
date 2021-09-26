@@ -1,5 +1,5 @@
-import NewComment from './factory/NewComment/NewComment'
 import CommentDTO from './model/RepositoryModel/CommentDTO'
+import NewComment from './model/DomainModel/NewComment'
 
 interface CommentRepository{
     getDetailComment(commentId: string): Promise<CommentDTO>
