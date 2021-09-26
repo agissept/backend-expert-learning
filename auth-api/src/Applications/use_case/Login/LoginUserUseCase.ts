@@ -26,19 +26,10 @@ class LoginUserUseCase {
     }
 
     async execute (useCasePayload: UnvalidatedPayload): Promise<NewAuth> {
-      const userLoginFactory = new UserLoginFactory()
-      const { username, password } = userLoginFactory.login(useCasePayload)
-
-      const encryptedPassword = await this.userRepository.getPasswordByUsername(username)
-      await this.passwordHash.comparePassword(password, encryptedPassword)
-      const id = await this.userRepository.getIdByUsername(username)
-
-      const accessToken = await this.authenticationTokenManager.createAccessToken({ username, id })
-      const refreshToken = await this.authenticationTokenManager.createRefreshToken({ username, id })
-
-      await this.authenticationRepository.addToken(refreshToken)
-
-      return { accessToken, refreshToken }
+      const userLoginFactory = new UserLoginFactory(this.userRepository, this.authenticationTokenManager, this.passwordHash)
+      const newAuth = await userLoginFactory.login(useCasePayload)
+      await this.authenticationRepository.addToken(newAuth.refreshToken)
+      return newAuth
     }
 }
 
