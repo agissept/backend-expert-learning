@@ -1,5 +1,5 @@
 import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
-import DeleteCommentFactory from '../../../Domains/comment/entities/DeleteComment/DeleteCommentFactory'
+import DeleteCommentFactory from '../../../Domains/comment/factory/DeleteComment/DeleteCommentFactory'
 import ThreadRepository from '../../../Domains/threads/ThreadRepository'
 import CommentRepository from '../../../Domains/comment/CommentRepository'
 

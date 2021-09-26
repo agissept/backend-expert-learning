@@ -1,7 +1,7 @@
 import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
 import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
 import ThreadRepository from '../../../Domains/threads/ThreadRepository'
-import NewThread from '../../../Domains/threads/entities/NewThread'
+import NewThreadFactory from '../../../Domains/threads/factory/NewThread/NewThreadFactory'
 
 class AddThreadUseCase {
     private threadRepository: ThreadRepository;
@@ -11,7 +11,8 @@ class AddThreadUseCase {
     }
 
     async execute (payload: UnvalidatedPayload, userId: string) {
-      const newThread = new NewThread(payload, userId)
+      const newThreadFactory = new NewThreadFactory()
+      const newThread = newThreadFactory.create(payload, userId)
       return await this.threadRepository.addThread(newThread)
     }
 }

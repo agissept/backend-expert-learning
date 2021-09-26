@@ -2,7 +2,7 @@ import PasswordHash from '../../Applications/security/PasswordHash'
 import AuthenticationError from '../../Commons/exceptions/AuthenticationError'
 
 class BcryptPasswordHash implements PasswordHash {
-    private bcrypt: any;
+    private bcrypt
     private readonly saltRound: number;
 
     constructor (bcrypt: any, saltRound = 10) {

@@ -1,5 +1,5 @@
 import autoBind from 'auto-bind'
-import AddUserUseCase from '../../../../Applications/use_case/AddUserUseCase'
+import AddUserUseCase from '../../../../Applications/use_case/AddUser/AddUserUseCase'
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import { Container } from 'instances-container'
 

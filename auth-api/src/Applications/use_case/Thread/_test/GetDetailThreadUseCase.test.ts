@@ -3,7 +3,7 @@ import CommentDTO from '../../../../Domains/comment/model/RepositoryModel/Commen
 import GetDetailThreadUseCase from '../GetDetailThreadUseCase'
 import ThreadRepository from '../../../../Domains/threads/ThreadRepository'
 import Comment from '../../../../Domains/comment/model/DomainModel/Comment'
-import ThreadWithComments from '../../../../Domains/threads/model/ThreadWithComments'
+import ThreadWithComments from '../../../../Domains/threads/model/DomainModel/ThreadWithComments'
 import CommentRepository from '../../../../Domains/comment/CommentRepository'
 
 describe('GetDetailThreadUseCase', () => {
@@ -15,7 +15,8 @@ describe('GetDetailThreadUseCase', () => {
       username: 'john',
       date: '2021-08-08T07:22:33.555Z',
       content: 'sebuah komentar',
-      isDeleted: false
+      isDeleted: false,
+      userId: 'john-123'
     }
 
     const secondComment: CommentDTO = {
@@ -23,7 +24,8 @@ describe('GetDetailThreadUseCase', () => {
       username: 'asep',
       date: '2021-09-08T07:22:33.555Z',
       content: 'ini adalah komentar',
-      isDeleted: true
+      isDeleted: true,
+      userId: 'asep-123'
     }
 
     const detailThreadFromDB: ThreadDTO = {

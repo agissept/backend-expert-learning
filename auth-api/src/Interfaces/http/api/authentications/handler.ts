@@ -1,9 +1,9 @@
 import { Container } from 'instances-container'
-import LoginUserUseCase from '../../../../Applications/use_case/LoginUserUseCase'
+import LoginUserUseCase from '../../../../Applications/use_case/Login/LoginUserUseCase'
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import autoBind from 'auto-bind'
-import RefreshAuthenticationUseCase from '../../../../Applications/use_case/RefreshAuthenticationUseCase'
-import LogoutUserUseCase from '../../../../Applications/use_case/LogoutUserUseCase'
+import RefreshAuthenticationUseCase from '../../../../Applications/use_case/Authentication/RefreshAuthenticationUseCase'
+import LogoutUserUseCase from '../../../../Applications/use_case/Logout/LogoutUserUseCase'
 
 class AuthenticationsHandler {
     private readonly container: Container;

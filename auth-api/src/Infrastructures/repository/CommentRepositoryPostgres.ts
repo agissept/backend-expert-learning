@@ -1,9 +1,8 @@
 import { Pool } from 'pg'
 import IdGenerator from '../util/IdGenerator/IdGenerator'
 import CommentRepository from '../../Domains/comment/CommentRepository'
-import NewComment from '../../Domains/comment/entities/NewComment/NewComment'
-import AddedComment from '../../Domains/comment/entities/AddedComment/AddedComment'
 import CommentDTO from '../../Domains/comment/model/RepositoryModel/CommentDTO'
+import NewComment from '../../Domains/comment/model/DomainModel/NewComment'
 
 class CommentRepositoryPostgres implements CommentRepository {
     private pool: Pool
@@ -29,7 +28,8 @@ class CommentRepositoryPostgres implements CommentRepository {
         username: comment.username,
         date: comment.created_at,
         content: comment.content,
-        isDeleted: comment.is_deleted
+        isDeleted: comment.is_deleted,
+        userId: comment.user_id
       }))
     }
 
@@ -57,14 +57,14 @@ class CommentRepositoryPostgres implements CommentRepository {
                WHERE id = $1 RETURNING id`,
         values: [commentId]
       }
-       await this.pool.query(query)
+      await this.pool.query(query)
     }
 
     isCommentAvailableInThread (threadId: string, commentId: string): Promise<Boolean> {
       throw new Error('Method not implemented.')
     }
 
-    async addComment (newComment: NewComment): Promise<AddedComment> {
+    async addComment (newComment: NewComment): Promise<string> {
       const commentId = `comment-${this.idGenerator.generate()}`
       const query = {
         text: 'INSERT INTO comments VALUES($1, $2, $3, $4) RETURNING id',
@@ -76,7 +76,7 @@ class CommentRepositoryPostgres implements CommentRepository {
         throw new Error('data gagal ditambahkan')
       }
 
-      return new AddedComment(commentId, newComment)
+      return commentId
     }
 }
 

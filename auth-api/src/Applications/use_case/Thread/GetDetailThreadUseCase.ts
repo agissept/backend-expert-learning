@@ -1,6 +1,6 @@
 import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
 import ThreadRepository from '../../../Domains/threads/ThreadRepository'
-import GetDetailThreadFactory from '../../../Domains/threads/entities/GetDetailThread/GetDetailThreadFactory'
+import GetDetailThreadFactory from '../../../Domains/threads/factory/GetDetailThread/GetDetailThreadFactory'
 import CommentRepository from '../../../Domains/comment/CommentRepository'
 
 class GetDetailThreadUseCase {

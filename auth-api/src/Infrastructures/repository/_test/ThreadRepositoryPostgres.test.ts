@@ -1,11 +1,11 @@
 import { Pool } from 'pg'
 import IdGenerator from '../../util/IdGenerator/IdGenerator'
 import ThreadRepositoryPostgres from '../ThreadRepositoryPostgres'
-import NewThread from '../../../Domains/threads/entities/NewThread'
+import NewThread from '../../../Domains/threads/model/DomainModel/NewThread'
 
 describe('ThreadRepositoryPostgres', () => {
   it('should throw error when add data is failed', function () {
-    const newThread = <NewThread>{}
+    const newThread = {} as NewThread
     const pool = <Pool>{}
     const idGenerator = <IdGenerator>{}
 

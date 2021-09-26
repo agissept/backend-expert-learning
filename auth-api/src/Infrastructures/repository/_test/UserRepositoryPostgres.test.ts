@@ -1,11 +1,14 @@
 import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper'
 import pool from '../../database/postgres/pool'
 import UserRepositoryPostgres from '../UserRepositoryPostgres'
-import RegisterUser from '../../../Domains/users/entities/RegisterUser/RegisterUser'
-import RegisteredUser from '../../../Domains/users/entities/RegisteredUser/RegisteredUser'
+import RegisterUserAggregate from '../../../Domains/users/factory/RegisterUser/RegisterUserAggregate'
 import InvariantError from '../../../Commons/exceptions/InvariantError'
+import IdGenerator from '../../util/IdGenerator/IdGenerator'
 
 describe('UserRepositoryPostgres', () => {
+  const idGenerator = <IdGenerator>{}
+  idGenerator.generate = jest.fn(() => '123')
+
   afterEach(async () => {
     await UsersTableTestHelper.cleanTable()
   })
@@ -17,13 +20,13 @@ describe('UserRepositoryPostgres', () => {
   describe('verifyAvailableUsername function', () => {
     it('should return true when username not available', async () => {
       await UsersTableTestHelper.addUser({ username: 'dicoding' })
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
 
       await expect(userRepositoryPostgres.isUsernameUsed('dicoding')).resolves.toEqual(true)
     })
 
     it('should return false when username not available', async () => {
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
 
       await expect(userRepositoryPostgres.isUsernameUsed('dicoding')).resolves.toEqual(false)
     })
@@ -31,14 +34,14 @@ describe('UserRepositoryPostgres', () => {
 
   describe('addUser function', () => {
     it('should persist register user', async () => {
-      const registerUser = new RegisterUser({
+      const registerUserAggregate = new RegisterUserAggregate()
+      const registerUser = registerUserAggregate.register({
         username: 'dicoding',
         password: 'secret_passoword',
         fullname: 'Dicoding Indonesia'
       })
 
-      const fakeIdGenerator = () => '123'
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, fakeIdGenerator)
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
 
       await userRepositoryPostgres.addUser(registerUser)
 
@@ -47,29 +50,29 @@ describe('UserRepositoryPostgres', () => {
     })
 
     it('should return registered user correctly', async () => {
-      const registerUser = new RegisterUser({
+      const registerUserAggregate = new RegisterUserAggregate()
+      const registerUser = registerUserAggregate.register({
         username: 'dicoding',
         password: 'secret_passoword',
         fullname: 'Dicoding Indonesia'
       })
 
-      const fakeIdGenerator = () => '123'
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, fakeIdGenerator)
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
 
       const registeredUser = await userRepositoryPostgres.addUser(registerUser)
 
-      expect(registeredUser).toStrictEqual(new RegisteredUser({
+      expect(registeredUser).toStrictEqual({
         id: 'user-123',
         username: 'dicoding',
         fullname: 'Dicoding Indonesia'
-      }))
+      })
     })
   })
 
   describe('getPasswordByUsername', () => {
     it('should throw InvariantError when user not found', () => {
       // Arrange
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
 
       // Action & Assert
       return expect(userRepositoryPostgres.getPasswordByUsername('dicoding'))
@@ -79,7 +82,7 @@ describe('UserRepositoryPostgres', () => {
 
     it('should return username password when user is found', async () => {
       // Arrange
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
       await UsersTableTestHelper.addUser({
         username: 'dicoding',
         password: 'secret_password'
@@ -94,7 +97,7 @@ describe('UserRepositoryPostgres', () => {
   describe('getIdByUsername', () => {
     it('should throw InvariantError when user not found', async () => {
       // Arrange
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
 
       // Action & Assert
       await expect(userRepositoryPostgres.getIdByUsername('dicoding'))
@@ -105,7 +108,7 @@ describe('UserRepositoryPostgres', () => {
     it('should return user id correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({ id: 'user-321', username: 'dicoding' })
-      const userRepositoryPostgres = new UserRepositoryPostgres(pool, {})
+      const userRepositoryPostgres = new UserRepositoryPostgres(pool, idGenerator)
 
       // Action
       const userId = await userRepositoryPostgres.getIdByUsername('dicoding')
