@@ -1,5 +1,5 @@
 import UserRepository from '../../../../Domains/users/UserRepository'
-import NewAuth from '../../../../Domains/authentications/entities/NewAuth'
+import NewAuth from '../../../../Domains/authentications/factory/NewAuth'
 import AuthenticationTokenManager from '../../../security/AuthenticationTokenManager'
 import PasswordHash from '../../../security/PasswordHash'
 import LoginUserUseCase from '../LoginUserUseCase'
