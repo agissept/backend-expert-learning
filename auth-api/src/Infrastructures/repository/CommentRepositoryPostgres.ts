@@ -28,7 +28,8 @@ class CommentRepositoryPostgres implements CommentRepository {
         username: comment.username,
         date: comment.created_at,
         content: comment.content,
-        isDeleted: comment.is_deleted
+        isDeleted: comment.is_deleted,
+        userId: comment.user_id
       }))
     }
 

@@ -1,5 +1,6 @@
 import AuthenticationTokenManager from '../../Applications/security/AuthenticationTokenManager'
 import InvariantError from '../../Commons/exceptions/InvariantError'
+import DecodedPayload from '../../Domains/authentications/model/DecodedPayload'
 
 class JwtTokenManager implements AuthenticationTokenManager {
     private jwt;
@@ -7,15 +8,15 @@ class JwtTokenManager implements AuthenticationTokenManager {
       this.jwt = jwt
     }
 
-    async createAccessToken (payload: any): Promise<string> {
+    async createAccessToken (payload: DecodedPayload): Promise<string> {
       return await this.jwt.generate(payload, process.env.ACCESS_TOKEN_KEY)
     }
 
-    async createRefreshToken (payload: any): Promise<string> {
+    async createRefreshToken (payload: DecodedPayload): Promise<string> {
       return await this.jwt.generate(payload, process.env.REFRESH_TOKEN_KEY)
     }
 
-    decodePayload (payload: any): any {
+    decodePayload (payload: string): DecodedPayload {
       const artifacts = this.jwt.decode(payload)
       return artifacts.decoded.payload
     }

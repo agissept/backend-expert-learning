@@ -2,7 +2,7 @@ import CommentDTO from '../../model/RepositoryModel/CommentDTO'
 
 class DeleteCommentAggregate {
     private readonly isThreadHasCreated: boolean
-    private readonly detailComment: any
+    private readonly detailComment: CommentDTO
     private readonly userId: string
 
     constructor (isThreadHasCreated: boolean, detailComment: CommentDTO, userId: string) {

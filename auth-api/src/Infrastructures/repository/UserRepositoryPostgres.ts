@@ -3,19 +3,20 @@ import UserRepository from '../../Domains/users/UserRepository'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import RegisterUser from '../../Domains/users/model/DomainModel/RegisterUser'
 import RegisteredUser from '../../Domains/users/model/DomainModel/RegisteredUser'
+import IdGenerator from '../util/IdGenerator/IdGenerator'
 
 class UserRepositoryPostgres implements UserRepository {
     private pool: Pool
-    private readonly idGenerator: any
+    private readonly idGenerator: IdGenerator
 
-    constructor (pool: Pool, idGenerator: any) {
+    constructor (pool: Pool, idGenerator: IdGenerator) {
       this.pool = pool
       this.idGenerator = idGenerator
     }
 
     async addUser (registerUser: RegisterUser): Promise<RegisteredUser> {
       const { username, password, fullname } = registerUser
-      const id = `user-${this.idGenerator()}`
+      const id = `user-${this.idGenerator.generate()}`
 
       const query = {
         text: 'INSERT INTO users VALUES($1, $2, $3, $4) RETURNING id, username, fullname',

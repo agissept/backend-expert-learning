@@ -13,7 +13,8 @@ describe('GetDetailThreadAggregate', () => {
       username: 'john',
       date: '2021-08-08T07:22:33.555Z',
       content: 'sebuah komentar',
-      isDeleted: false
+      isDeleted: false,
+      userId: 'john-123'
     }
 
     const secondComment: CommentDTO = {
@@ -21,7 +22,8 @@ describe('GetDetailThreadAggregate', () => {
       username: 'asep',
       date: '2021-09-08T07:22:33.555Z',
       content: 'ini adalah komentar',
-      isDeleted: true
+      isDeleted: true,
+      userId: 'asep-123'
     }
 
     const commentsFromDB = [firstComment, secondComment]

@@ -57,6 +57,7 @@ const createServer = async (container: Container) => {
   server.ext('onPreResponse', (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request
+
     if (response instanceof Error) {
       // bila response tersebut error, tangani sesuai kebutuhan
       const translatedError = DomainErrorTranslator.translate(response)
@@ -78,7 +79,6 @@ const createServer = async (container: Container) => {
         status: 'error',
         message: 'terjadi kegagalan pada server kami'
       })
-
       newResponse.code(500)
       return newResponse
     }

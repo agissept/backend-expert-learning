@@ -3,7 +3,8 @@ interface CommentDTO {
     username: string,
     date: string,
     content: string,
-    isDeleted: boolean
+    isDeleted: boolean,
+    userId: string
 }
 
 export default CommentDTO

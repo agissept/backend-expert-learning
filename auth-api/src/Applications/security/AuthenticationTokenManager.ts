@@ -1,11 +1,13 @@
+import DecodedPayload from '../../Domains/authentications/model/DecodedPayload'
+
 interface AuthenticationTokenManager {
-    decodePayload(payload: any) : any
+    decodePayload(payload: string) : DecodedPayload
 
     verifyRefreshToken(token: string): void
 
-    createAccessToken(payload: { id: string; username: string }): Promise<string>;
+    createAccessToken(payload: DecodedPayload): Promise<string>;
 
-    createRefreshToken(p: { id: string; username: string }): Promise<string>
+    createRefreshToken(payload: DecodedPayload): Promise<string>
 }
 
 export default AuthenticationTokenManager

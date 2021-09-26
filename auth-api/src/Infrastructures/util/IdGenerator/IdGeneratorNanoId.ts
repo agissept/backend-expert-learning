@@ -1,7 +1,7 @@
 import IdGenerator from './IdGenerator'
 
 class IdGeneratorNanoId implements IdGenerator {
-    private readonly nanoid: any;
+    private readonly nanoid
 
     constructor (nanoid: any) {
       this.nanoid = nanoid
