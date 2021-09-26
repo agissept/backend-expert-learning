@@ -3,7 +3,7 @@ import IdGenerator from '../util/IdGenerator/IdGenerator'
 import CommentRepository from '../../Domains/comment/CommentRepository'
 import NewComment from '../../Domains/comment/entities/NewComment/NewComment'
 import AddedComment from '../../Domains/comment/entities/AddedComment/AddedComment'
-import DetailComment from '../../Domains/comment/model/DetailComment'
+import CommentDTO from '../../Domains/comment/model/RepositoryModel/CommentDTO'
 
 class CommentRepositoryPostgres implements CommentRepository {
     private pool: Pool
@@ -14,7 +14,26 @@ class CommentRepositoryPostgres implements CommentRepository {
       this.idGenerator = idGenerator
     }
 
-    async getDetailComment (commentId: string): Promise<DetailComment> {
+    async getCommentsByThreadId (threadId: string): Promise<CommentDTO[]> {
+      const query = {
+        text: `SELECT comments.*, users.username
+               FROM comments
+               JOIN users ON users.id = comments.user_id
+               WHERE thread_id = $1`,
+        values: [threadId]
+      }
+      const { rows } = await this.pool.query(query)
+
+      return rows.map((comment) => ({
+        id: comment.id,
+        username: comment.username,
+        date: comment.created_at,
+        content: comment.content,
+        isDeleted: comment.is_deleted
+      }))
+    }
+
+    async getDetailComment (commentId: string): Promise<CommentDTO> {
       const query = {
         text: 'SELECT * FROM comments WHERE id = $1',
         values: [commentId]
@@ -22,24 +41,23 @@ class CommentRepositoryPostgres implements CommentRepository {
       const { rows, rowCount } = await this.pool.query(query)
 
       if (!rowCount) {
-        return undefined as unknown as DetailComment
+        return undefined as unknown as CommentDTO
       }
 
       return {
-        id: rows[0].id,
-        userId: rows[0].user_id
+        userId: rows[0].user_id,
+        ...rows[0]
       }
     }
 
-    async deleteComment (commentId: string): Promise<void> {
+    async softDeleteComment (commentId: string): Promise<void> {
       const query = {
-        text: 'DELETE FROM comments WHERE id = $1 RETURNING id',
+        text: `UPDATE comments
+               SET is_deleted = true
+               WHERE id = $1 RETURNING id`,
         values: [commentId]
       }
-      const { rowCount } = await this.pool.query(query)
-      if (!rowCount) {
-        throw new Error('data gagal dihapus')
-      }
+       await this.pool.query(query)
     }
 
     isCommentAvailableInThread (threadId: string, commentId: string): Promise<Boolean> {

@@ -1,11 +1,11 @@
-import DetailComment from '../../model/DetailComment'
+import CommentDTO from '../../model/RepositoryModel/CommentDTO'
 
 class DeleteCommentAggregate {
     private readonly isThreadHasCreated: boolean
     private readonly detailComment: any
     private readonly userId: string
 
-    constructor (isThreadHasCreated: boolean, detailComment: DetailComment, userId: string) {
+    constructor (isThreadHasCreated: boolean, detailComment: CommentDTO, userId: string) {
       this.isThreadHasCreated = isThreadHasCreated
       this.detailComment = detailComment
       this.userId = userId

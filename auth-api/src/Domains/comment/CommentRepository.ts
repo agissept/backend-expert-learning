@@ -1,11 +1,12 @@
 import AddedComment from './entities/AddedComment/AddedComment'
 import NewComment from './entities/NewComment/NewComment'
-import DetailComment from './model/DetailComment'
+import CommentDTO from './model/RepositoryModel/CommentDTO'
 
 interface CommentRepository{
-    getDetailComment(commentId: string): Promise<DetailComment>
+    getDetailComment(commentId: string): Promise<CommentDTO>
     addComment(newComment: NewComment): Promise<AddedComment>
-    deleteComment(commentId: string): Promise<void>
+    softDeleteComment(commentId: string): Promise<void>
     isCommentAvailableInThread(threadId: string, commentId: string): Promise<Boolean>
+    getCommentsByThreadId(threadId: string): Promise<Array<CommentDTO>>;
 }
 export default CommentRepository
