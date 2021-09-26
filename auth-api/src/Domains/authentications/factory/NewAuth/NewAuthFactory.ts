@@ -1,5 +1,5 @@
-import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
-import NewAuth from '../model/NewAuth'
+import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
+import NewAuth from '../../model/NewAuth'
 
 class NewAuthFactory {
   create (payload: UnvalidatedPayload) : NewAuth {
