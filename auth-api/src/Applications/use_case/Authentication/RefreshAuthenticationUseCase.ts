@@ -1,7 +1,7 @@
-import AuthenticationTokenManager from '../security/AuthenticationTokenManager'
-import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
-import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
-import UseCaseConstructor from '../../Commons/interface/UseCaseConstructor'
+import AuthenticationTokenManager from '../../security/AuthenticationTokenManager'
+import AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository'
+import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
+import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
 
 class RefreshAuthenticationUseCase {
     private authenticationTokenManager: AuthenticationTokenManager;

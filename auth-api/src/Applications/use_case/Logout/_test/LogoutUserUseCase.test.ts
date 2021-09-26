@@ -1,5 +1,5 @@
 import LogoutUserUseCase from '../LogoutUserUseCase'
-import AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository'
+import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository'
 
 describe('LogoutUserUseCase', () => {
   it('should throw error if use case payload not contain refresh token', async () => {

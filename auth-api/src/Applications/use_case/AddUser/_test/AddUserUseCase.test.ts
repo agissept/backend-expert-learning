@@ -1,8 +1,8 @@
-import RegisteredUser from '../../../Domains/users/entities/RegisteredUser/RegisteredUser'
-import PasswordHash from '../../security/PasswordHash'
+import RegisteredUser from '../../../../Domains/users/entities/RegisteredUser/RegisteredUser'
+import PasswordHash from '../../../security/PasswordHash'
 import AddUserUseCase from '../AddUserUseCase'
-import RegisterUser from '../../../Domains/users/entities/RegisterUser/RegisterUser'
-import UserRepository from '../../../Domains/users/UserRepository'
+import RegisterUser from '../../../../Domains/users/entities/RegisterUser/RegisterUser'
+import UserRepository from '../../../../Domains/users/UserRepository'
 
 describe('AddUserUseCase', () => {
   it('should orchestrating the add user action correctly', async () => {

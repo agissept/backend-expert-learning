@@ -1,8 +1,8 @@
-import UserRepository from '../../Domains/users/UserRepository'
-import PasswordHash from '../security/PasswordHash'
-import RegisterUserFactory from '../../Domains/users/entities/RegisterUser/RegisterUserFactory'
-import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
-import UseCaseConstructor from '../../Commons/interface/UseCaseConstructor'
+import UserRepository from '../../../Domains/users/UserRepository'
+import PasswordHash from '../../security/PasswordHash'
+import RegisterUserFactory from '../../../Domains/users/entities/RegisterUser/RegisterUserFactory'
+import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
+import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
 
 class AddUserUseCase {
     private readonly userRepository: UserRepository;

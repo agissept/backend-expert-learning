@@ -1,6 +1,6 @@
 import RefreshAuthenticationUseCase from '../RefreshAuthenticationUseCase'
-import AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository'
-import AuthenticationTokenManager from '../../security/AuthenticationTokenManager'
+import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository'
+import AuthenticationTokenManager from '../../../security/AuthenticationTokenManager'
 
 describe('RefreshAuthenticationUseCase', () => {
   it('should throw error if use case payload not containing refresh token', async () => {

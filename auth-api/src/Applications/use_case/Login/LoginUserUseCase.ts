@@ -1,10 +1,10 @@
-import UserRepository from '../../Domains/users/UserRepository'
-import AuthenticationTokenManager from '../security/AuthenticationTokenManager'
-import PasswordHash from '../security/PasswordHash'
-import UserLogin from '../../Domains/users/entities/UserLogin/UserLogin'
-import NewAuth from '../../Domains/authentications/entities/NewAuth'
-import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
-import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
+import UserRepository from '../../../Domains/users/UserRepository'
+import AuthenticationTokenManager from '../../security/AuthenticationTokenManager'
+import PasswordHash from '../../security/PasswordHash'
+import UserLogin from '../../../Domains/users/entities/UserLogin/UserLogin'
+import NewAuth from '../../../Domains/authentications/entities/NewAuth'
+import AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository'
+import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
 
 class LoginUserUseCase {
     userRepository: UserRepository;

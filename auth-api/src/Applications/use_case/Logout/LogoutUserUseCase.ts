@@ -1,6 +1,6 @@
-import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository'
-import UnvalidatedPayload from '../../Commons/interface/UnvalidatedPayload'
-import UseCaseConstructor from '../../Commons/interface/UseCaseConstructor'
+import AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository'
+import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
+import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
 
 class LogoutUserUseCase {
   private readonly authenticationRepository: AuthenticationRepository
