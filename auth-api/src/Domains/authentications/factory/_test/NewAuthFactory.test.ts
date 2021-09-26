@@ -1,25 +1,23 @@
-import NewAuth from '../NewAuth'
+import NewAuthFactory from '../NewAuthFactory'
 
 describe('NewAuth factory', () => {
+  const newAuthFactory = new NewAuthFactory()
+
   it('should throw error when payload not contain needed property', () => {
-    // Arrange
     const payload = {
       accessToken: 'accessToken'
     }
 
-    // Action & Assert
-    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.NOT_CONTAIN_NEEDED_PROPERTY')
+    expect(() => newAuthFactory.create(payload)).toThrowError('NEW_AUTH.NOT_CONTAIN_NEEDED_PROPERTY')
   })
 
   it('should throw error when payload not meet data type specification', () => {
-    // Arrange
     const payload = {
       accessToken: 'accessToken',
       refreshToken: 1234
     }
 
-    // Action & Assert
-    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.NOT_MEET_DATA_TYPE_SPECIFICATION')
+    expect(() => newAuthFactory.create(payload)).toThrowError('NEW_AUTH.NOT_MEET_DATA_TYPE_SPECIFICATION')
   })
 
   it('should create NewAuth factory correctly', () => {
@@ -29,11 +27,7 @@ describe('NewAuth factory', () => {
       refreshToken: 'refreshToken'
     }
 
-    // Action
-    const newAuth = new NewAuth(payload)
-
-    // Assert
-    expect(newAuth).toBeInstanceOf(NewAuth)
+    const newAuth = newAuthFactory.create(payload)
     expect(newAuth.accessToken).toEqual(payload.accessToken)
     expect(newAuth.refreshToken).toEqual(payload.refreshToken)
   })
