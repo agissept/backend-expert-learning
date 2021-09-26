@@ -1,5 +1,5 @@
-import RegisteredUser from './entities/RegisteredUser/RegisteredUser'
-import RegisterUser from './entities/RegisterUser/RegisterUser'
+import RegisteredUser from './factory/RegisteredUser/RegisteredUser'
+import RegisterUser from './factory/RegisterUser/RegisterUser'
 
 interface UserRepository {
     getIdByUsername(username: string): Promise<string>

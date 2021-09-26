@@ -1,6 +1,6 @@
 import { Pool } from 'pg'
-import RegisterUser from '../../Domains/users/entities/RegisterUser/RegisterUser'
-import RegisteredUser from '../../Domains/users/entities/RegisteredUser/RegisteredUser'
+import RegisterUser from '../../Domains/users/factory/RegisterUser/RegisterUser'
+import RegisteredUser from '../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import UserRepository from '../../Domains/users/UserRepository'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 

@@ -1,7 +1,7 @@
-import RegisteredUser from '../../../../Domains/users/entities/RegisteredUser/RegisteredUser'
+import RegisteredUser from '../../../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import PasswordHash from '../../../security/PasswordHash'
 import AddUserUseCase from '../AddUserUseCase'
-import RegisterUser from '../../../../Domains/users/entities/RegisterUser/RegisterUser'
+import RegisterUser from '../../../../Domains/users/factory/RegisterUser/RegisterUser'
 import UserRepository from '../../../../Domains/users/UserRepository'
 
 describe('AddUserUseCase', () => {
