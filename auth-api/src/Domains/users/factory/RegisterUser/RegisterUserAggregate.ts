@@ -1,6 +1,6 @@
 import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
 
-class RegisterUser {
+class RegisterUserAggregate {
   username: string
   password: string
   fullname: string
@@ -28,4 +28,4 @@ class RegisterUser {
   }
 }
 
-export default RegisterUser
+export default RegisterUserAggregate

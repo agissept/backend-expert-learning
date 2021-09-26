@@ -1,10 +1,10 @@
 import RegisteredUser from './factory/RegisteredUser/RegisteredUser'
-import RegisterUser from './factory/RegisterUser/RegisterUser'
+import RegisterUserAggregate from './factory/RegisterUser/RegisterUserAggregate'
 
 interface UserRepository {
     getIdByUsername(username: string): Promise<string>
     getPasswordByUsername(username: string): Promise<string>
-    addUser(registerUser: RegisterUser) : Promise<RegisteredUser>
+    addUser(registerUser: RegisterUserAggregate) : Promise<RegisteredUser>
     isUsernameUsed(username: string) : Promise<Boolean>
 }
 

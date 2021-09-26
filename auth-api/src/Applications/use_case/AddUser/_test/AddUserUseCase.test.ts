@@ -1,7 +1,7 @@
 import RegisteredUser from '../../../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import PasswordHash from '../../../security/PasswordHash'
 import AddUserUseCase from '../AddUserUseCase'
-import RegisterUser from '../../../../Domains/users/factory/RegisterUser/RegisterUser'
+import RegisterUserAggregate from '../../../../Domains/users/factory/RegisterUser/RegisterUserAggregate'
 import UserRepository from '../../../../Domains/users/UserRepository'
 
 describe('AddUserUseCase', () => {
@@ -35,7 +35,7 @@ describe('AddUserUseCase', () => {
     expect(registerUser).toStrictEqual(expectedRegisteredUser)
     expect(mockUserRepository.isUsernameUsed).toBeCalledWith(useCasePayload.username)
     expect(mockPasswordHash.hash).toBeCalledWith(useCasePayload.password)
-    expect(mockUserRepository.addUser).toBeCalledWith(new RegisterUser({
+    expect(mockUserRepository.addUser).toBeCalledWith(new RegisterUserAggregate({
       username: useCasePayload.username,
       password: 'encrypted_password',
       fullname: useCasePayload.fullname

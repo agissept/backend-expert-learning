@@ -1,4 +1,4 @@
-import RegisterUser from './RegisterUser'
+import RegisterUserAggregate from './RegisterUserAggregate'
 import UserRepository from '../../UserRepository'
 import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
 
@@ -9,8 +9,8 @@ class RegisterUserFactory {
     this.userRepository = userRepository
   }
 
-  async create (payload: UnvalidatedPayload): Promise<RegisterUser> {
-    const registerUser = new RegisterUser(payload)
+  async create (payload: UnvalidatedPayload): Promise<RegisterUserAggregate> {
+    const registerUser = new RegisterUserAggregate(payload)
     if (await this.userRepository.isUsernameUsed(registerUser.username)) {
       throw new Error('REGISTER_USER.USERNAME_IS_TAKEN')
     }

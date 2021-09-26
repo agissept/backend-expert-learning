@@ -1,7 +1,7 @@
 import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper'
 import pool from '../../database/postgres/pool'
 import UserRepositoryPostgres from '../UserRepositoryPostgres'
-import RegisterUser from '../../../Domains/users/factory/RegisterUser/RegisterUser'
+import RegisterUserAggregate from '../../../Domains/users/factory/RegisterUser/RegisterUserAggregate'
 import RegisteredUser from '../../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import InvariantError from '../../../Commons/exceptions/InvariantError'
 
@@ -31,7 +31,7 @@ describe('UserRepositoryPostgres', () => {
 
   describe('addUser function', () => {
     it('should persist register user', async () => {
-      const registerUser = new RegisterUser({
+      const registerUser = new RegisterUserAggregate({
         username: 'dicoding',
         password: 'secret_passoword',
         fullname: 'Dicoding Indonesia'
@@ -47,7 +47,7 @@ describe('UserRepositoryPostgres', () => {
     })
 
     it('should return registered user correctly', async () => {
-      const registerUser = new RegisterUser({
+      const registerUser = new RegisterUserAggregate({
         username: 'dicoding',
         password: 'secret_passoword',
         fullname: 'Dicoding Indonesia'

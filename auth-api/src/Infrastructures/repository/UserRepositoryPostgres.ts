@@ -1,5 +1,5 @@
 import { Pool } from 'pg'
-import RegisterUser from '../../Domains/users/factory/RegisterUser/RegisterUser'
+import RegisterUserAggregate from '../../Domains/users/factory/RegisterUser/RegisterUserAggregate'
 import RegisteredUser from '../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import UserRepository from '../../Domains/users/UserRepository'
 import InvariantError from '../../Commons/exceptions/InvariantError'
@@ -13,7 +13,7 @@ class UserRepositoryPostgres implements UserRepository {
       this.idGenerator = idGenerator
     }
 
-    async addUser (registerUser: RegisterUser): Promise<RegisteredUser> {
+    async addUser (registerUser: RegisterUserAggregate): Promise<RegisteredUser> {
       const { username, password, fullname } = registerUser
       const id = `user-${this.idGenerator()}`
 
