@@ -15,7 +15,7 @@ class DeleteCommentUseCase {
     async execute (userId: string, threadId: string, commentId: string) {
       const deleteCommentFactory = new DeleteCommentFactory(this.threadRepository, this.commentRepository)
       const id = await deleteCommentFactory.create(userId, threadId, commentId)
-      await this.commentRepository.deleteComment(id)
+      await this.commentRepository.softDeleteComment(id)
     }
 }
 export default DeleteCommentUseCase

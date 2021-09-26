@@ -11,7 +11,7 @@ describe('DeleteCommentUseCase', () => {
 
     const commentRepository = <CommentRepository>{}
     const threadRepository = <ThreadRepository>{}
-    commentRepository.deleteComment = jest.fn().mockImplementation()
+    commentRepository.softDeleteComment = jest.fn().mockImplementation()
     threadRepository.isThreadHasCreated = jest.fn(() => Promise.resolve(true))
     commentRepository.getDetailComment = jest.fn(() => Promise.resolve({
       id: 'comment-1',
