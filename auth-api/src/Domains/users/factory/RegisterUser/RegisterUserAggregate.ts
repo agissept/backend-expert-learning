@@ -1,11 +1,8 @@
 import UnvalidatedPayload from '../../../../Commons/interface/UnvalidatedPayload'
+import RegisterUser from '../../model/DomainModel/RegisterUser'
 
 class RegisterUserAggregate {
-  username: string
-  password: string
-  fullname: string
-
-  constructor ({ username, password, fullname }: UnvalidatedPayload) {
+  register ({ username, password, fullname }: UnvalidatedPayload): RegisterUser {
     if (!username || !password || !fullname) {
       throw new Error('REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY')
     }
@@ -22,9 +19,7 @@ class RegisterUserAggregate {
       throw new Error('REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER')
     }
 
-    this.username = username
-    this.password = password
-    this.fullname = fullname
+    return { username, password, fullname }
   }
 }
 
