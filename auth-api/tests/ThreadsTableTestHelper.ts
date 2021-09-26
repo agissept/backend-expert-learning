@@ -12,6 +12,15 @@ const ThreadTableTestHelper = {
     return result.rows
   },
 
+  async createThread (userId: string, { threadId = 'thread-123', title = 'sebuah judul', body = 'sebuah thread' }) {
+    const query = {
+      text: 'INSERT INTO threads VALUES($1, $2, $3, $4) RETURNING threads',
+      values: [threadId, userId, title, body]
+    }
+
+    await pool.query(query)
+  },
+
   async cleanTable () {
     await pool.query('TRUNCATE TABLE threads CASCADE')
   }

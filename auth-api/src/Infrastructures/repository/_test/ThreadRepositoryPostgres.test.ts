@@ -17,7 +17,7 @@ describe('ThreadRepositoryPostgres', () => {
     await pool.end()
   })
 
-  describe('addUser function', () => {
+  describe('addComment function', () => {
     it('should throw error when add data is failed', function () {
       const newThread = {} as NewThread
       const pool = <Pool>{}

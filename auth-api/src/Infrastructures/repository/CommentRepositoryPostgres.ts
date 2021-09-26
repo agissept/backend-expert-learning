@@ -35,18 +35,26 @@ class CommentRepositoryPostgres implements CommentRepository {
 
     async getDetailComment (commentId: string): Promise<CommentDTO> {
       const query = {
-        text: 'SELECT * FROM comments WHERE id = $1',
+        text: `SELECT comments.*, users.username
+               FROM comments
+               JOIN users ON users.id = comments.user_id 
+               WHERE comments.id = $1`,
         values: [commentId]
       }
       const { rows, rowCount } = await this.pool.query(query)
+      const comment = rows[0]
 
       if (!rowCount) {
         return undefined as unknown as CommentDTO
       }
 
       return {
-        userId: rows[0].user_id,
-        ...rows[0]
+        id: comment.id,
+        username: comment.username,
+        date: comment.created_at,
+        content: comment.content,
+        isDeleted: comment.is_deleted,
+        userId: comment.user_id
       }
     }
 
@@ -60,15 +68,11 @@ class CommentRepositoryPostgres implements CommentRepository {
       await this.pool.query(query)
     }
 
-    isCommentAvailableInThread (threadId: string, commentId: string): Promise<Boolean> {
-      throw new Error('Method not implemented.')
-    }
-
-    async addComment (newComment: NewComment): Promise<string> {
+    async addComment ({ userId, content, threadId }: NewComment): Promise<string> {
       const commentId = `comment-${this.idGenerator.generate()}`
       const query = {
         text: 'INSERT INTO comments VALUES($1, $2, $3, $4) RETURNING id',
-        values: [commentId, ...Object.values(newComment)]
+        values: [commentId, userId, threadId, content]
       }
 
       const { rowCount } = await this.pool.query(query)
