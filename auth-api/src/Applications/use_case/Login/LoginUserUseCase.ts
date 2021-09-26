@@ -1,7 +1,7 @@
 import UserRepository from '../../../Domains/users/UserRepository'
 import AuthenticationTokenManager from '../../security/AuthenticationTokenManager'
 import PasswordHash from '../../security/PasswordHash'
-import UserLogin from '../../../Domains/users/factory/UserLogin/UserLogin'
+import UserLoginFactory from '../../../Domains/users/factory/UserLogin/UserLoginFactory'
 import NewAuthFactory from '../../../Domains/authentications/factory/NewAuthFactory'
 import AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository'
 import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
@@ -26,7 +26,8 @@ class LoginUserUseCase {
     }
 
     async execute (useCasePayload: UnvalidatedPayload) {
-      const { username, password } = new UserLogin(useCasePayload)
+      const userLoginFactory = new UserLoginFactory()
+      const { username, password } = userLoginFactory.login(useCasePayload)
 
       const encryptedPassword = await this.userRepository.getPasswordByUsername(username)
       await this.passwordHash.comparePassword(password, encryptedPassword)
