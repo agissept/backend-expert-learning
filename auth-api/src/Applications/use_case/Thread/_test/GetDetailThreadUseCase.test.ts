@@ -1,54 +1,54 @@
-import DetailThread from '../../../../Domains/threads/model/DetailThread'
-import DetailComment from '../../../../Domains/comment/model/DetailComment'
+import ThreadDTO from '../../../../Domains/threads/model/RepositoryModel/ThreadDTO'
+import CommentDTO from '../../../../Domains/comment/model/RepositoryModel/CommentDTO'
 import GetDetailThreadUseCase from '../GetDetailThreadUseCase'
 import ThreadRepository from '../../../../Domains/threads/ThreadRepository'
+import Comment from '../../../../Domains/comment/model/DomainModel/Comment'
+import ThreadWithComments from '../../../../Domains/threads/model/ThreadWithComments'
+import CommentRepository from '../../../../Domains/comment/CommentRepository'
 
 describe('GetDetailThreadUseCase', () => {
   it('should orchestrating the get detail thread action correctly ', async () => {
     const threadId = 'thread-123'
 
-    const firstComment: DetailComment = {
+    const firstComment: CommentDTO = {
       id: 'comment-123',
-      userId: 'john',
+      username: 'john',
       date: '2021-08-08T07:22:33.555Z',
       content: 'sebuah komentar',
-      deleted: false
+      isDeleted: false
     }
 
-    const secondComment: DetailComment = {
+    const secondComment: CommentDTO = {
       id: 'comment-321',
-      userId: 'asep',
+      username: 'asep',
       date: '2021-09-08T07:22:33.555Z',
       content: 'ini adalah komentar',
-      deleted: true
+      isDeleted: true
     }
 
-    const detailThreadFromDB: DetailThread = {
+    const detailThreadFromDB: ThreadDTO = {
       id: threadId,
       title: 'sebuah judul thread',
       body: 'sebuah isi thread',
       date: '2021-08-08T07:19:09.775Z',
-      username: 'agis',
-      comments: [firstComment, secondComment]
+      username: 'agis'
     }
 
-    const expectedFirstComment: DetailComment = {
+    const expectedFirstComment: Comment = {
       id: 'comment-123',
-      userId: 'john',
+      username: 'john',
       date: '2021-08-08T07:22:33.555Z',
-      content: 'sebuah komentar',
-      deleted: false
+      content: 'sebuah komentar'
     }
 
-    const expectedSecondComment: DetailComment = {
+    const expectedSecondComment: Comment = {
       id: 'comment-321',
-      userId: 'asep',
+      username: 'asep',
       date: '2021-09-08T07:22:33.555Z',
-      content: '**komentar telah dihapus**',
-      deleted: true
+      content: '**komentar telah dihapus**'
     }
 
-    const expectedThread: DetailThread = {
+    const expectedThread: ThreadWithComments = {
       id: threadId,
       title: 'sebuah judul thread',
       body: 'sebuah isi thread',
@@ -58,8 +58,10 @@ describe('GetDetailThreadUseCase', () => {
     }
 
     const threadRepository = <ThreadRepository>{}
-    const getDetailThreadUseCase = new GetDetailThreadUseCase({ threadRepository })
+    const commentRepository = <CommentRepository>{}
+    const getDetailThreadUseCase = new GetDetailThreadUseCase({ threadRepository, commentRepository })
     threadRepository.getDetailThread = jest.fn(() => Promise.resolve(detailThreadFromDB))
+    commentRepository.getCommentsByThreadId = jest.fn(() => Promise.resolve([firstComment, secondComment]))
     const detailThread = await getDetailThreadUseCase.execute(threadId)
 
     expect(expectedThread).toStrictEqual(detailThread)
