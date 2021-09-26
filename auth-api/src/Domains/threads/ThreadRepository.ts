@@ -1,9 +1,9 @@
 import NewThread from './entities/NewThread'
 import AddedThread from './entities/AddedThread'
-import DetailThread from './model/DetailThread'
+import ThreadDTO from './model/RepositoryModel/ThreadDTO'
 
 interface ThreadRepository{
-    getDetailThread(threadId: string): Promise<DetailThread>
+    getDetailThread(threadId: string): Promise<ThreadDTO>
 
     addThread(thread: NewThread): Promise<AddedThread>
 
