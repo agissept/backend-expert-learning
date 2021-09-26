@@ -20,6 +20,7 @@ import IdGeneratorNanoId from './util/IdGenerator/IdGeneratorNanoId'
 import AddCommentUseCase from '../Applications/use_case/Comment/AddCommentUseCase'
 import CommentRepositoryPostgres from './repository/CommentRepositoryPostgres'
 import DeleteCommentUseCase from '../Applications/use_case/Comment/DeleteCommentUseCase'
+import GetDetailThreadUseCase from '../Applications/use_case/Thread/GetDetailThreadUseCase'
 
 const container = createContainer()
 
@@ -230,6 +231,21 @@ container.register([
           internal: 'CommentRepository'
         }
       ]
+    }
+  },
+  {
+    key: GetDetailThreadUseCase.name,
+    Class: GetDetailThreadUseCase,
+    parameter: {
+      injectType: 'destructuring',
+      dependencies: [{
+        name: 'threadRepository',
+        internal: 'ThreadRepository'
+      },
+      {
+        name: 'commentRepository',
+        internal: 'CommentRepository'
+      }]
     }
   }
 ])
