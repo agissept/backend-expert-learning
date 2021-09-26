@@ -1,21 +1,35 @@
-import DetailThread from '../../model/DetailThread'
+import ThreadDTO from '../../model/RepositoryModel/ThreadDTO'
+import CommentDTO from '../../../comment/model/RepositoryModel/CommentDTO'
+import ThreadWithComments from '../../model/ThreadWithComments'
+import Comment from '../../../comment/model/DomainModel/Comment'
 
 class GetDetailThreadAggregate {
-    private readonly thread: DetailThread;
+    private readonly thread: ThreadDTO;
+    private comments: Array<CommentDTO>;
 
-    constructor (thread: DetailThread) {
+    constructor (thread: ThreadDTO, comments: Array<CommentDTO>) {
       this.thread = thread
+      this.comments = comments
     }
 
-    get () {
-      this.thread.comments = this.thread.comments.map(comment => {
-        if (comment.deleted) {
+    get () : ThreadWithComments {
+      const comments: Comment[] = this.comments.map(comment => {
+        if (comment.isDeleted) {
           comment.content = '**komentar telah dihapus**'
         }
-        return comment
+
+        return {
+          id: comment.id,
+          content: comment.content,
+          date: comment.date,
+          username: comment.username
+        }
       })
 
-      return this.thread
+      return {
+        ...this.thread,
+        comments
+      }
     }
 }
 
