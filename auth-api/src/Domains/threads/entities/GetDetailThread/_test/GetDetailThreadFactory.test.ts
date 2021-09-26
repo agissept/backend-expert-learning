@@ -1,14 +1,18 @@
 import ThreadRepository from '../../../ThreadRepository'
 import GetDetailThreadFactory from '../GetDetailThreadFactory'
-import DetailThread from '../../../model/DetailThread'
-import DetailComment from '../../../../comment/model/DetailComment'
+import ThreadDTO from '../../../model/RepositoryModel/ThreadDTO'
+import CommentDTO from '../../../../comment/model/RepositoryModel/CommentDTO'
+import CommentRepository from '../../../../comment/CommentRepository'
+import ThreadWithComments from '../../../model/ThreadWithComments'
+import Comment from '../../../../comment/model/DomainModel/Comment'
 
 describe('GetDetailThreadFactory', () => {
   it('should throw error when thread is not found', async () => {
     const threadId = 'thread-123'
     const threadRepository = <ThreadRepository>{}
-    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository)
-    threadRepository.getDetailThread = jest.fn(() => Promise.resolve(undefined as unknown as DetailThread))
+    const commentRepository = <CommentRepository>{}
+    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository, commentRepository)
+    threadRepository.getDetailThread = jest.fn(() => Promise.resolve(undefined as unknown as ThreadDTO))
 
     await expect(getDetailThreadFactory.create(threadId)).rejects.toThrowError('GET_DETAIL_THREAD.THREAD_IS_NOT_FOUND')
   })
@@ -16,48 +20,47 @@ describe('GetDetailThreadFactory', () => {
   it('should return detail thread properly', async () => {
     const threadId = 'thread-123'
 
-    const firstComment: DetailComment = {
+    const firstComment: CommentDTO = {
       id: 'comment-123',
-      userId: 'john',
+      username: 'john',
       date: '2021-08-08T07:22:33.555Z',
       content: 'sebuah komentar',
-      deleted: false
+      isDeleted: false
     }
 
-    const secondComment: DetailComment = {
+    const secondComment: CommentDTO = {
       id: 'comment-321',
-      userId: 'asep',
+      username: 'asep',
       date: '2021-09-08T07:22:33.555Z',
       content: 'ini adalah komentar',
-      deleted: true
+      isDeleted: true
     }
 
-    const detailThreadFromDB: DetailThread = {
+    const commentFromDB = [firstComment, secondComment]
+
+    const detailThreadFromDB: ThreadDTO = {
       id: threadId,
       title: 'sebuah judul thread',
       body: 'sebuah isi thread',
       date: '2021-08-08T07:19:09.775Z',
-      username: 'agis',
-      comments: [firstComment, secondComment]
+      username: 'agis'
     }
 
-    const expectedFirstComment: DetailComment = {
+    const expectedFirstComment: Comment = {
       id: 'comment-123',
-      userId: 'john',
+      username: 'john',
       date: '2021-08-08T07:22:33.555Z',
-      content: 'sebuah komentar',
-      deleted: false
+      content: 'sebuah komentar'
     }
 
-    const expectedSecondComment: DetailComment = {
+    const expectedSecondComment: Comment = {
       id: 'comment-321',
-      userId: 'asep',
+      username: 'asep',
       date: '2021-09-08T07:22:33.555Z',
-      content: '**komentar telah dihapus**',
-      deleted: true
+      content: '**komentar telah dihapus**'
     }
 
-    const expectedThread: DetailThread = {
+    const expectedThread: ThreadWithComments = {
       id: threadId,
       title: 'sebuah judul thread',
       body: 'sebuah isi thread',
@@ -67,8 +70,10 @@ describe('GetDetailThreadFactory', () => {
     }
 
     const threadRepository = <ThreadRepository>{}
-    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository)
+    const commentRepository = <CommentRepository>{}
+    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository, commentRepository)
     threadRepository.getDetailThread = jest.fn(() => Promise.resolve(detailThreadFromDB))
+    commentRepository.getCommentsByThreadId = jest.fn(() => Promise.resolve(commentFromDB))
 
     const thread = await getDetailThreadFactory.create(threadId)
     expect(thread).toStrictEqual(expectedThread)
