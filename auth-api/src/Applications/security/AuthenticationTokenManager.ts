@@ -3,9 +3,9 @@ interface AuthenticationTokenManager {
 
     verifyRefreshToken(token: string): void
 
-    createAccessToken(payload: { id: string; username: string }): string;
+    createAccessToken(payload: { id: string; username: string }): Promise<string>;
 
-    createRefreshToken(p: { id: string; username: string }): string
+    createRefreshToken(p: { id: string; username: string }): Promise<string>
 }
 
 export default AuthenticationTokenManager

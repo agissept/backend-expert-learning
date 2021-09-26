@@ -2,10 +2,10 @@ import UserRepository from '../../../Domains/users/UserRepository'
 import AuthenticationTokenManager from '../../security/AuthenticationTokenManager'
 import PasswordHash from '../../security/PasswordHash'
 import UserLoginFactory from '../../../Domains/users/factory/UserLogin/UserLoginFactory'
-import NewAuthFactory from '../../../Domains/authentications/factory/NewAuth/NewAuthFactory'
 import AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository'
 import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
 import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
+import NewAuth from '../../../Domains/authentications/model/NewAuth'
 
 class LoginUserUseCase {
     userRepository: UserRepository;
@@ -25,7 +25,7 @@ class LoginUserUseCase {
       this.passwordHash = passwordHash
     }
 
-    async execute (useCasePayload: UnvalidatedPayload) {
+    async execute (useCasePayload: UnvalidatedPayload): Promise<NewAuth> {
       const userLoginFactory = new UserLoginFactory()
       const { username, password } = userLoginFactory.login(useCasePayload)
 
@@ -36,12 +36,9 @@ class LoginUserUseCase {
       const accessToken = await this.authenticationTokenManager.createAccessToken({ username, id })
       const refreshToken = await this.authenticationTokenManager.createRefreshToken({ username, id })
 
-      const newAuthFactory = new NewAuthFactory()
-      const newAuth = newAuthFactory.create({ accessToken, refreshToken })
+      await this.authenticationRepository.addToken(refreshToken)
 
-      await this.authenticationRepository.addToken(newAuth.refreshToken)
-
-      return newAuth
+      return { accessToken, refreshToken }
     }
 }
 

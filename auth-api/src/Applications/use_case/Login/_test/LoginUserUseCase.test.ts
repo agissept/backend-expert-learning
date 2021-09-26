@@ -1,5 +1,4 @@
 import UserRepository from '../../../../Domains/users/UserRepository'
-import NewAuthFactory from '../../../../Domains/authentications/factory/NewAuth/NewAuthFactory'
 import AuthenticationTokenManager from '../../../security/AuthenticationTokenManager'
 import PasswordHash from '../../../security/PasswordHash'
 import LoginUserUseCase from '../LoginUserUseCase'
@@ -12,15 +11,14 @@ describe('GetAuthenticationUseCase', () => {
       username: 'dicoding',
       password: 'secret'
     }
-    const newAuthFactory = new NewAuthFactory()
     const mockUserRepository = <UserRepository>{}
     const mockAuthenticationRepository = <AuthenticationRepository>{}
     const mockAuthenticationTokenManager = <AuthenticationTokenManager>{}
     const mockPasswordHash = <PasswordHash>{}
-    const expectedAuthentication = newAuthFactory.create({
+    const expectedAuthentication = {
       accessToken: 'access_token',
       refreshToken: 'refresh_token'
-    })
+    }
 
     // Mocking
     mockUserRepository.getPasswordByUsername = jest.fn()
