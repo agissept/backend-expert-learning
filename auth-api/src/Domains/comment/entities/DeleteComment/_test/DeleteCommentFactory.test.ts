@@ -1,7 +1,7 @@
 import DeleteCommentFactory from '../DeleteCommentFactory'
 import ThreadRepository from '../../../../threads/ThreadRepository'
 import CommentRepository from '../../../CommentRepository'
-import DetailComment from '../../../model/DetailComment'
+import CommentDTO from '../../../model/RepositoryModel/CommentDTO'
 
 describe('DeleteCommentFactory', () => {
   it('should throw error when thread id is not created', async () => {
@@ -13,7 +13,7 @@ describe('DeleteCommentFactory', () => {
     const commentRepository = <CommentRepository>{}
 
     threadRepository.isThreadHasCreated = jest.fn().mockImplementation(() => Promise.resolve(false))
-    commentRepository.getDetailComment = jest.fn(() => Promise.resolve({} as DetailComment))
+    commentRepository.getDetailComment = jest.fn(() => Promise.resolve({} as CommentDTO))
 
     const deleteCommentFactory = new DeleteCommentFactory(threadRepository, commentRepository)
 

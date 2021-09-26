@@ -1,5 +1,5 @@
 import DeleteCommentAggregate from '../DeleteCommentAggregate'
-import DetailComment from '../../../model/DetailComment'
+import CommentDTO from '../../../model/RepositoryModel/CommentDTO'
 
 describe('DeleteComment', () => {
   it('should throw error when thread is not created', async () => {
@@ -10,7 +10,7 @@ describe('DeleteComment', () => {
     const detailComment = {
       id: 'comment-123',
       userId: 'user-123'
-    }
+    } as unknown as CommentDTO
 
     const deleteComment = new DeleteCommentAggregate(isThreadHasCreated, detailComment, userId)
 
@@ -22,7 +22,7 @@ describe('DeleteComment', () => {
     const userId = 'user-123'
     const commentId = 'comment-123'
 
-    const detailComment = undefined as unknown as DetailComment
+    const detailComment = undefined as unknown as CommentDTO
 
     const deleteComment = new DeleteCommentAggregate(isThreadHasCreated, detailComment, userId)
 
@@ -35,7 +35,7 @@ describe('DeleteComment', () => {
     const detailComment = {
       id: 'comment-123',
       userId: 'user-123'
-    }
+    } as unknown as CommentDTO
     const commentId = 'comment-123'
 
     const deleteComment = new DeleteCommentAggregate(isThreadHasCreated, detailComment, userId)
@@ -48,7 +48,7 @@ describe('DeleteComment', () => {
     const detailComment = {
       id: 'comment-123',
       userId: 'user-123'
-    }
+    } as unknown as CommentDTO
     const commentId = 'comment-123'
 
     const deleteComment = new DeleteCommentAggregate(isThreadHasCreated, detailComment, userId)

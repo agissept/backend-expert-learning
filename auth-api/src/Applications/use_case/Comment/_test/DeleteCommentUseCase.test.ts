@@ -1,6 +1,7 @@
 import DeleteCommentUseCase from '../DeleteCommentUseCase'
 import CommentRepository from '../../../../Domains/comment/CommentRepository'
 import ThreadRepository from '../../../../Domains/threads/ThreadRepository'
+import CommentDTO from '../../../../Domains/comment/model/RepositoryModel/CommentDTO'
 
 describe('DeleteCommentUseCase', () => {
   it('should orchestrating the add comment action correctly', async () => {
@@ -15,7 +16,7 @@ describe('DeleteCommentUseCase', () => {
     commentRepository.getDetailComment = jest.fn(() => Promise.resolve({
       id: 'comment-1',
       userId: 'user-123'
-    }))
+    } as unknown as CommentDTO))
 
     const deleteThreadUseCase = new DeleteCommentUseCase({ commentRepository, threadRepository })
 
