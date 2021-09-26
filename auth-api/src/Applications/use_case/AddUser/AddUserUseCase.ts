@@ -6,7 +6,7 @@ import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
 
 class AddUserUseCase {
     private readonly userRepository: UserRepository;
-    private passwordHash: PasswordHash;
+    private readonly passwordHash: PasswordHash;
 
     constructor ({ userRepository, passwordHash } : UseCaseConstructor) {
       this.userRepository = userRepository
@@ -14,10 +14,8 @@ class AddUserUseCase {
     }
 
     async execute (useCasePayload: UnvalidatedPayload) {
-      const factory = new RegisterUserFactory(this.userRepository)
+      const factory = new RegisterUserFactory(this.userRepository, this.passwordHash)
       const registerUser = await factory.create(useCasePayload)
-      await this.userRepository.isUsernameUsed(registerUser.username)
-      registerUser.password = await this.passwordHash.hash(registerUser.password)
       return this.userRepository.addUser(registerUser)
     }
 }
