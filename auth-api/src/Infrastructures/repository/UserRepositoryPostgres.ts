@@ -1,8 +1,8 @@
 import { Pool } from 'pg'
-import RegisteredUser from '../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import UserRepository from '../../Domains/users/UserRepository'
 import InvariantError from '../../Commons/exceptions/InvariantError'
 import RegisterUser from '../../Domains/users/model/DomainModel/RegisterUser'
+import RegisteredUser from '../../Domains/users/model/DomainModel/RegisteredUser'
 
 class UserRepositoryPostgres implements UserRepository {
     private pool: Pool
@@ -24,7 +24,7 @@ class UserRepositoryPostgres implements UserRepository {
 
       const result = await this.pool.query(query)
 
-      return new RegisteredUser({ ...result.rows[0] })
+      return { ...result.rows[0] }
     }
 
     async isUsernameUsed (username: string) {

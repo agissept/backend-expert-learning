@@ -1,4 +1,3 @@
-import RegisteredUser from '../../../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import PasswordHash from '../../../security/PasswordHash'
 import AddUserUseCase from '../AddUserUseCase'
 import UserRepository from '../../../../Domains/users/UserRepository'
@@ -11,11 +10,11 @@ describe('AddUserUseCase', () => {
       fullname: 'Dicoding Indonesia'
     }
 
-    const expectedRegisteredUser = new RegisteredUser({
+    const expectedRegisteredUser = {
       id: 'user-123',
       username: useCasePayload.username,
       fullname: useCasePayload.fullname
-    })
+    }
 
     const mockUserRepository = <UserRepository>{}
     const mockPasswordHash = <PasswordHash>{}

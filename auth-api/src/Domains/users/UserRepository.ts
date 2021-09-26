@@ -1,5 +1,5 @@
-import RegisteredUser from './factory/RegisteredUser/RegisteredUser'
 import RegisterUser from './model/DomainModel/RegisterUser'
+import RegisteredUser from './model/DomainModel/RegisteredUser'
 
 interface UserRepository {
     getIdByUsername(username: string): Promise<string>

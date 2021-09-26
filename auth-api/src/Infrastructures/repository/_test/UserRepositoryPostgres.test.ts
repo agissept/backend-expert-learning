@@ -2,7 +2,6 @@ import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper'
 import pool from '../../database/postgres/pool'
 import UserRepositoryPostgres from '../UserRepositoryPostgres'
 import RegisterUserAggregate from '../../../Domains/users/factory/RegisterUser/RegisterUserAggregate'
-import RegisteredUser from '../../../Domains/users/factory/RegisteredUser/RegisteredUser'
 import InvariantError from '../../../Commons/exceptions/InvariantError'
 
 describe('UserRepositoryPostgres', () => {
@@ -60,11 +59,11 @@ describe('UserRepositoryPostgres', () => {
 
       const registeredUser = await userRepositoryPostgres.addUser(registerUser)
 
-      expect(registeredUser).toStrictEqual(new RegisteredUser({
+      expect(registeredUser).toStrictEqual({
         id: 'user-123',
         username: 'dicoding',
         fullname: 'Dicoding Indonesia'
-      }))
+      })
     })
   })
 
