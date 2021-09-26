@@ -1,9 +1,9 @@
 import ThreadRepository from '../../Domains/threads/ThreadRepository'
-import NewThread from '../../Domains/threads/entities/NewThread'
 import { Pool } from 'pg'
 import IdGenerator from '../util/IdGenerator/IdGenerator'
-import AddedThread from '../../Domains/threads/entities/AddedThread'
 import ThreadDTO from '../../Domains/threads/model/RepositoryModel/ThreadDTO'
+import AddedThread from '../../Domains/threads/model/DomainModel/AddedThread'
+import NewThread from '../../Domains/threads/model/DomainModel/NewThread'
 
 class ThreadRepositoryPostgres implements ThreadRepository {
     private pool: Pool
@@ -38,11 +38,11 @@ class ThreadRepositoryPostgres implements ThreadRepository {
       }
     }
 
-    async addThread (newThread: NewThread): Promise<AddedThread> {
+    async addThread ({ title, body, userId }: NewThread): Promise<AddedThread> {
       const threadId = `thread-${this.idGenerator.generate()}`
       const query = {
-        text: 'INSERT INTO threads VALUES($1, $2, $3, $4) RETURNING id',
-        values: [threadId, ...Object.values(newThread)]
+        text: 'INSERT INTO threads VALUES($1, $2, $3, $4) RETURNING threads',
+        values: [threadId, userId, title, body]
       }
 
       const { rowCount } = await this.pool.query(query)
@@ -50,7 +50,7 @@ class ThreadRepositoryPostgres implements ThreadRepository {
         throw new Error('data gagal ditambahkan')
       }
 
-      return new AddedThread(threadId, newThread)
+      return { id: threadId, owner: userId, title: title }
     }
 
     async isThreadHasCreated (threadId: string): Promise<boolean> {

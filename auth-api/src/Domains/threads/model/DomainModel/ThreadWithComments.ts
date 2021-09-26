@@ -1,4 +1,4 @@
-import Comment from '../../comment/model/DomainModel/Comment'
+import Comment from '../../../comment/model/DomainModel/Comment'
 
 interface ThreadWithComments {
     id: string,

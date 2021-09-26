@@ -1,7 +1,7 @@
 import GetDetailThreadAggregate from '../GetDetailThreadAggregate'
 import ThreadDTO from '../../../model/RepositoryModel/ThreadDTO'
 import CommentDTO from '../../../../comment/model/RepositoryModel/CommentDTO'
-import ThreadWithComments from '../../../model/ThreadWithComments'
+import ThreadWithComments from '../../../model/DomainModel/ThreadWithComments'
 import Comment from '../../../../comment/model/DomainModel/Comment'
 
 describe('GetDetailThreadAggregate', () => {

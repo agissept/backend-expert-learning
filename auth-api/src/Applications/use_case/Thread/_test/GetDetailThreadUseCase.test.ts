@@ -3,7 +3,7 @@ import CommentDTO from '../../../../Domains/comment/model/RepositoryModel/Commen
 import GetDetailThreadUseCase from '../GetDetailThreadUseCase'
 import ThreadRepository from '../../../../Domains/threads/ThreadRepository'
 import Comment from '../../../../Domains/comment/model/DomainModel/Comment'
-import ThreadWithComments from '../../../../Domains/threads/model/ThreadWithComments'
+import ThreadWithComments from '../../../../Domains/threads/model/DomainModel/ThreadWithComments'
 import CommentRepository from '../../../../Domains/comment/CommentRepository'
 
 describe('GetDetailThreadUseCase', () => {

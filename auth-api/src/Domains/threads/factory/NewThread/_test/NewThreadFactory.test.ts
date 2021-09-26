@@ -1,6 +1,7 @@
-import NewThread from '../NewThread'
+import NewThreadFactory from '../NewThreadFactory'
 
-describe('NewThread factory', () => {
+describe('NewThreadFactory factory', () => {
+  const newThreadFactory = new NewThreadFactory()
   it('should throw error when payload not contain needed property', () => {
     // Arrange
     const payload = {
@@ -9,7 +10,7 @@ describe('NewThread factory', () => {
     const userId = 'ssss'
 
     // Action & Assert
-    expect(() => new NewThread(payload, userId)).toThrowError('NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY')
+    expect(() => newThreadFactory.create(payload, userId)).toThrowError('NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY')
   })
 
   it('should throw error when payload not meet data type specification', () => {
@@ -21,10 +22,10 @@ describe('NewThread factory', () => {
     const userId = 'user-1'
 
     // Action & Assert
-    expect(() => new NewThread(payload, userId)).toThrowError('NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION')
+    expect(() => newThreadFactory.create(payload, userId)).toThrowError('NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION')
   })
 
-  it('should create NewThread factory correctly', () => {
+  it('should create NewThreadFactory factory correctly', () => {
     // Arrange
     const payload = {
       title: 'ini adalah judul',
@@ -34,12 +35,9 @@ describe('NewThread factory', () => {
     const userId = 'user-1'
 
     // Action
-    const newThread = new NewThread(payload, userId)
-    expect(newThread).toBeInstanceOf(NewThread)
+    const newThread = newThreadFactory.create(payload, userId)
     expect(newThread.userId).toEqual(userId)
     expect(newThread.title).toEqual(payload.title)
     expect(newThread.body).toEqual(payload.body)
-
-    // Assert
   })
 })

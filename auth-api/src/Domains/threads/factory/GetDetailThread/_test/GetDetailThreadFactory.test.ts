@@ -3,7 +3,7 @@ import GetDetailThreadFactory from '../GetDetailThreadFactory'
 import ThreadDTO from '../../../model/RepositoryModel/ThreadDTO'
 import CommentDTO from '../../../../comment/model/RepositoryModel/CommentDTO'
 import CommentRepository from '../../../../comment/CommentRepository'
-import ThreadWithComments from '../../../model/ThreadWithComments'
+import ThreadWithComments from '../../../model/DomainModel/ThreadWithComments'
 import Comment from '../../../../comment/model/DomainModel/Comment'
 
 describe('GetDetailThreadFactory', () => {
