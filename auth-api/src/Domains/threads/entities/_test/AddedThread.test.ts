@@ -1,7 +1,7 @@
 import NewThread from '../NewThread'
 import AddedThread from '../AddedThread'
 
-describe('a AddedThread entities', () => {
+describe('a AddedThread factory', () => {
   it('should create newThread object correctly', () => {
     const userId = 'user-123'
     const newThread = new NewThread({

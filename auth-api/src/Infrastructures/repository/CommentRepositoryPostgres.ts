@@ -1,8 +1,8 @@
 import { Pool } from 'pg'
 import IdGenerator from '../util/IdGenerator/IdGenerator'
 import CommentRepository from '../../Domains/comment/CommentRepository'
-import NewComment from '../../Domains/comment/entities/NewComment/NewComment'
-import AddedComment from '../../Domains/comment/entities/AddedComment/AddedComment'
+import NewComment from '../../Domains/comment/factory/NewComment/NewComment'
+import AddedComment from '../../Domains/comment/factory/AddedComment/AddedComment'
 import CommentDTO from '../../Domains/comment/model/RepositoryModel/CommentDTO'
 
 class CommentRepositoryPostgres implements CommentRepository {
@@ -57,7 +57,7 @@ class CommentRepositoryPostgres implements CommentRepository {
                WHERE id = $1 RETURNING id`,
         values: [commentId]
       }
-       await this.pool.query(query)
+      await this.pool.query(query)
     }
 
     isCommentAvailableInThread (threadId: string, commentId: string): Promise<Boolean> {

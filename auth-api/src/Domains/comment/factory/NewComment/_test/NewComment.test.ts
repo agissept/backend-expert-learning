@@ -1,6 +1,6 @@
 import NewComment from '../NewComment'
 
-describe('NewComment entities', () => {
+describe('NewComment factory', () => {
   it('should throw error when payload not contain needed property', () => {
     // Arrange
     const payload = {}

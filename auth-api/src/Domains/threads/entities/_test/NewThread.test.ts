@@ -1,6 +1,6 @@
 import NewThread from '../NewThread'
 
-describe('NewThread entities', () => {
+describe('NewThread factory', () => {
   it('should throw error when payload not contain needed property', () => {
     // Arrange
     const payload = {
@@ -24,7 +24,7 @@ describe('NewThread entities', () => {
     expect(() => new NewThread(payload, userId)).toThrowError('NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION')
   })
 
-  it('should create NewThread entities correctly', () => {
+  it('should create NewThread factory correctly', () => {
     // Arrange
     const payload = {
       title: 'ini adalah judul',

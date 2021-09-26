@@ -1,6 +1,6 @@
 import RegisteredUser from '../RegisteredUser'
 
-describe('a RegisteredUser entities', () => {
+describe('a RegisteredUser factory', () => {
   it('should create registerUser object correctly', () => {
     const payload = {
       id: 'user-123',

@@ -1,6 +1,6 @@
 import RegisterUser from '../RegisterUser'
 
-describe('a RegisterUser entities', () => {
+describe('a RegisterUser factory', () => {
   it('should throw error when payload did not contain needed property', () => {
     // Arrange
     const payload = {

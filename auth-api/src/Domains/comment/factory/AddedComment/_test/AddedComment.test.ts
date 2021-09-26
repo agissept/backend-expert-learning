@@ -1,7 +1,7 @@
 import AddedComment from '../AddedComment'
 import NewComment from '../../NewComment/NewComment'
 
-describe('a AddedComment entities', () => {
+describe('a AddedComment factory', () => {
   it('should create addedComment object correctly', () => {
     const payload = {
       content: 'ini adalah komentar'

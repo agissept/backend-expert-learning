@@ -2,8 +2,8 @@ import UseCaseConstructor from '../../../Commons/interface/UseCaseConstructor'
 import CommentRepository from '../../../Domains/comment/CommentRepository'
 import ThreadRepository from '../../../Domains/threads/ThreadRepository'
 import UnvalidatedPayload from '../../../Commons/interface/UnvalidatedPayload'
-import NewCommentFactory from '../../../Domains/comment/entities/NewComment/NewCommentFactory'
-import AddedComment from '../../../Domains/comment/entities/AddedComment/AddedComment'
+import NewCommentFactory from '../../../Domains/comment/factory/NewComment/NewCommentFactory'
+import AddedComment from '../../../Domains/comment/factory/AddedComment/AddedComment'
 
 class AddCommentUseCase {
      commentRepository: CommentRepository

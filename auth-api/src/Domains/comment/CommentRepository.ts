@@ -1,5 +1,5 @@
-import AddedComment from './entities/AddedComment/AddedComment'
-import NewComment from './entities/NewComment/NewComment'
+import AddedComment from './factory/AddedComment/AddedComment'
+import NewComment from './factory/NewComment/NewComment'
 import CommentDTO from './model/RepositoryModel/CommentDTO'
 
 interface CommentRepository{

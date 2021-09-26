@@ -1,6 +1,6 @@
 import UserLogin from '../UserLogin'
 
-describe('UserLogin entities', () => {
+describe('UserLogin factory', () => {
   it('should throw error when payload does not contain needed property', () => {
     // Arrange
     const payload = {
@@ -22,7 +22,7 @@ describe('UserLogin entities', () => {
     expect(() => new UserLogin(payload)).toThrowError('USER_LOGIN.NOT_MEET_DATA_TYPE_SPECIFICATION')
   })
 
-  it('should create UserLogin entities correctly', () => {
+  it('should create UserLogin factory correctly', () => {
     // Arrange
     const payload = {
       username: 'dicoding',
