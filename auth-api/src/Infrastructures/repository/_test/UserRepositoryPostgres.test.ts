@@ -31,7 +31,8 @@ describe('UserRepositoryPostgres', () => {
 
   describe('addUser function', () => {
     it('should persist register user', async () => {
-      const registerUser = new RegisterUserAggregate({
+      const registerUserAggregate = new RegisterUserAggregate()
+      const registerUser = registerUserAggregate.register({
         username: 'dicoding',
         password: 'secret_passoword',
         fullname: 'Dicoding Indonesia'
@@ -47,7 +48,8 @@ describe('UserRepositoryPostgres', () => {
     })
 
     it('should return registered user correctly', async () => {
-      const registerUser = new RegisterUserAggregate({
+      const registerUserAggregate = new RegisterUserAggregate()
+      const registerUser = registerUserAggregate.register({
         username: 'dicoding',
         password: 'secret_passoword',
         fullname: 'Dicoding Indonesia'
