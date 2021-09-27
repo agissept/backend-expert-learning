@@ -10,7 +10,7 @@
     "test:watch": "jest --watchAll --coverage -i",
     "test:watch:change": "jest --watch --coverage -i --verbose false",
     "migrate": "ts-node ./node_modules/node-pg-migrate/bin/node-pg-migrate -j ts",
-    "migrate:test": "ts-node ./node_modules/node-pg-migrate/bin/node-pg-migrate -j ts --envPath .env.testing",
+    "migrate:test": "ts-node ./node_modules/node-pg-migrate/bin/node-pg-migrate -j ts --envPath .env.test",
     "prepare": "ts-patch install -s"
   },
   "dependencies": {
@@ -18,12 +18,14 @@
     "@hapi/jwt": "^2.1.0",
     "@types/auto-bind": "^2.1.0",
     "@types/bcrypt": "^5.0.0",
+    "@types/dotenv-flow": "^3.2.0",
     "@types/hapi__hapi": "^20.0.9",
     "@types/hapi__jwt": "^2.0.1",
     "@types/nanoid": "^3.0.0",
     "@types/pg": "^8.6.1",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
+    "dotenv-flow": "^3.2.0",
     "instances-container": "^2.0.3",
     "jest": "^27.1.0",
     "jest-ts-auto-mock": "^2.0.0",
