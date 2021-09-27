@@ -14,10 +14,10 @@ class RepliesHandler {
 
   async postReplyHandler ({ payload, auth, params }: Request, h: ResponseToolkit) {
     const { id: userId } = auth.credentials
-    const { commentId } = params
+    const { commentId, threadId } = params
 
     const addReplyUseCase = this.container.getInstance(AddReplyUseCase.name) as AddReplyUseCase
-    const addedReply = await addReplyUseCase.execute(payload, userId as string, commentId)
+    const addedReply = await addReplyUseCase.execute(payload, userId as string, commentId, threadId)
 
     return h.response({
       status: 'success',

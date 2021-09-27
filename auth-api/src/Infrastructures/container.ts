@@ -278,6 +278,10 @@ container.register([
         {
           name: 'commentRepository',
           internal: 'CommentRepository'
+        },
+        {
+          name: 'threadRepository',
+          internal: 'ThreadRepository'
         }
       ]
     }
