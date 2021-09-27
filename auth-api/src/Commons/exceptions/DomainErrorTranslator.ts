@@ -21,7 +21,10 @@ class DomainErrorTranslator {
     'NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat komentar baru karena properti yang dibutuhkan tidak ada'),
     'NEW_COMMENT.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat membuat komentar baru karena thread tidak valid'),
     'DELETE_COMMENT.CANNOT_WRITE_THIS_RESOURCE': new AuthorizationError('tidak dapat menghapus komentar ini akses tidak valid'),
-    'DELETE_COMMENT.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus komentar karena thread komentar tidak ada')
+    'DELETE_COMMENT.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus komentar karena thread komentar tidak ada'),
+    'NEW_REPLY.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat balasan baru karena properti yang dibutuhkan tidak ada'),
+    'NEW_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat membuat balasan baru karena tipe data tidak sesuai'),
+    'NEW_REPLY.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat membuat balasan baru karena koemntar tidak  tidak valid')
   }
 
   static translate (error: Error) {
