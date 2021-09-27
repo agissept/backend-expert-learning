@@ -5,6 +5,7 @@ interface CommentRepository{
     getDetailComment(commentId: string): Promise<CommentDTO>
     addComment(newComment: NewComment): Promise<string>
     softDeleteComment(commentId: string): Promise<void>
-    getCommentsByThreadId(threadId: string): Promise<Array<CommentDTO>>;
+    getCommentsByThreadId(threadId: string): Promise<Array<CommentDTO>>
+    isCommentHasCreated(commentId: string): Promise<Boolean>
 }
 export default CommentRepository
