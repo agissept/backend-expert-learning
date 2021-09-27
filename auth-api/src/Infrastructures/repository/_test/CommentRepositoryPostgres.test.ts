@@ -6,6 +6,8 @@ import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper'
 import pool from '../../database/postgres/pool'
 import CommentsTableTestHelper from '../../../../tests/CommentsTableTestHelper'
 import { Pool } from 'pg'
+import ThreadRepositoryPostgres from '../ThreadRepositoryPostgres'
+import NewThreadFactory from '../../../Domains/threads/factory/NewThread/NewThreadFactory'
 
 describe('CommentRepositoryPostgres', () => {
   afterEach(async () => {
@@ -179,6 +181,41 @@ describe('CommentRepositoryPostgres', () => {
       expect(content).toStrictEqual(comment.content)
       expect(isDeleted).toStrictEqual(true)
       expect(username).toStrictEqual(registerUsername)
+    })
+  })
+
+  describe('isCommentHasCreated', () => {
+    it('should return false when comment not created', async () => {
+      const idGenerator = <IdGenerator>{}
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, idGenerator)
+
+      await expect(commentRepositoryPostgres.isCommentHasCreated('thread-123')).resolves.toStrictEqual(false)
+    })
+    it('should return true when comment has created', async () => {
+      const userId = 'user-123'
+      await UsersTableTestHelper.addUser({ id: userId })
+
+      const idGenerator = <IdGenerator>{}
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, idGenerator)
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, idGenerator)
+      idGenerator.generate = jest.fn().mockImplementation(() => '123')
+
+      const thread = new NewThreadFactory().create({
+        title: 'sebuah thread',
+        body: 'sebuah content'
+      }, userId)
+
+      const { id: threadId } = await threadRepositoryPostgres.addThread(thread)
+
+      const comment: NewComment = {
+        content: 'sebuah komentar',
+        threadId,
+        userId
+      }
+
+      await commentRepositoryPostgres.addComment(comment)
+
+      await expect(threadRepositoryPostgres.isThreadHasCreated('thread-123')).resolves.toStrictEqual(true)
     })
   })
 })
