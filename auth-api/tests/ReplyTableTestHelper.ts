@@ -13,6 +13,15 @@ const ReplyTableTestHelper = {
   },
   async cleanTable () {
     await pool.query('TRUNCATE TABLE replies CASCADE')
+  },
+
+  async createReply (userId: string, commentId: string, { replyId = 'reply-123', content = 'sebuah koementar' }) {
+    const query = {
+      text: 'INSERT INTO replies VALUES($1, $2, $3, $4) RETURNING id',
+      values: [replyId, userId, commentId, content]
+    }
+
+    await pool.query(query)
   }
 }
 

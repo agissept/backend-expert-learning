@@ -81,4 +81,48 @@ describe('ReplyRepositoryPostgres', () => {
       expect(addedReply).toStrictEqual('reply-123')
     })
   })
+
+  describe('getRepliesByIds', () => {
+    it('should return [] when replies not found', () => {
+      const idGenerator = <IdGenerator>{}
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, idGenerator)
+
+      return expect(replyRepositoryPostgres.getRepliesByCommentIds(['dicoding']))
+        .resolves
+        .toStrictEqual([])
+    })
+
+    it('should return ReplyDTO[] when replies is found', async () => {
+      const registerUserId = 'user-123'
+      const registerUsername = 'asep'
+      await UsersTableTestHelper.addUser({ id: registerUserId, username: registerUsername })
+
+      const threadId = 'thread-123'
+      await ThreadsTableTestHelper.createThread(registerUserId, { threadId })
+
+      const commentId = 'comment-123'
+      await CommentsTableTestHelper.createComment(registerUserId, threadId, { commentId })
+
+      const idGenerator = <IdGenerator>{}
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, idGenerator)
+      idGenerator.generate = jest.fn().mockImplementation(() => '123')
+
+      const reply: NewReply = {
+        commentId,
+        content: 'sebuah balasan',
+        userId: registerUserId
+      }
+
+      await replyRepositoryPostgres.addReply(reply)
+
+      const replies = await replyRepositoryPostgres.getRepliesByCommentIds([commentId])
+
+      expect(replies[0].commentId).toStrictEqual(commentId)
+      expect(replies[0].content).toStrictEqual(reply.content)
+      expect(replies[0].id).toStrictEqual('reply-123')
+      expect(replies[0].isDeleted).toStrictEqual(false)
+      expect(replies[0].userId).toStrictEqual(registerUserId)
+      expect(replies[0].username).toStrictEqual(registerUsername)
+    })
+  })
 })
