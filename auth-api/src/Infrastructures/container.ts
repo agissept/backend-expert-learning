@@ -23,6 +23,7 @@ import DeleteCommentUseCase from '../Applications/use_case/Comment/DeleteComment
 import GetDetailThreadUseCase from '../Applications/use_case/Thread/GetDetailThreadUseCase'
 import ReplyRepositoryPostgres from './repository/ReplyRepositoryPostgres'
 import AddReplyUseCase from '../Applications/use_case/Reply/AddReplyUseCase'
+import DeleteReplyUseCase from '../Applications/use_case/Reply/DeleteReplyUseCase'
 
 const container = createContainer()
 
@@ -289,8 +290,28 @@ container.register([
         }
       ]
     }
+  },
+  {
+    key: DeleteReplyUseCase.name,
+    Class: DeleteReplyUseCase,
+    parameter: {
+      injectType: 'destructuring',
+      dependencies: [
+        {
+          name: 'replyRepository',
+          internal: 'ReplyRepository'
+        },
+        {
+          name: 'commentRepository',
+          internal: 'CommentRepository'
+        },
+        {
+          name: 'threadRepository',
+          internal: 'ThreadRepository'
+        }
+      ]
+    }
   }
-
 ])
 
 export default container
