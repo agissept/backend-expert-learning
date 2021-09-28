@@ -33,7 +33,8 @@ class ReplyRepositoryPostgres implements ReplyRepository {
         text: `SELECT replies.*, users.username
             FROM replies 
             INNER JOIN users ON users.id = replies.user_id
-            WHERE replies.comment_id = ANY($1::text[])`,
+            WHERE replies.comment_id = ANY($1::text[])
+            ORDER BY replies.created_at ASC`,
         values: [commentIds]
       }
 
