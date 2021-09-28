@@ -48,6 +48,41 @@ class ReplyRepositoryPostgres implements ReplyRepository {
         username: row.username
       }))
     }
+
+    async getReplyById (replyId: string): Promise<ReplyDTO | undefined> {
+      const query = {
+        text: `SELECT replies.*, users.username
+               FROM replies
+               JOIN users ON users.id = replies.user_id 
+               WHERE replies.id = $1`,
+        values: [replyId]
+      }
+      const { rows, rowCount } = await this.pool.query(query)
+      const reply = rows[0]
+
+      if (!rowCount) {
+        return undefined
+      }
+      return {
+        commentId: reply.comment_id,
+        content: reply.content,
+        createdAt: reply.created_at,
+        id: reply.id,
+        isDeleted: reply.is_deleted,
+        userId: reply.user_id,
+        username: reply.username
+      }
+    }
+
+    async softDeleteReply (replyId: string): Promise<void> {
+      const query = {
+        text: `UPDATE replies
+               SET is_deleted = true
+               WHERE id = $1`,
+        values: [replyId]
+      }
+      await this.pool.query(query)
+    }
 }
 
 export default ReplyRepositoryPostgres

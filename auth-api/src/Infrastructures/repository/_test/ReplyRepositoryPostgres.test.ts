@@ -125,4 +125,73 @@ describe('ReplyRepositoryPostgres', () => {
       expect(replies[0].username).toStrictEqual(registerUsername)
     })
   })
+
+  describe('getReplyById', () => {
+    it('should return undefined when reply not found', () => {
+      const idGenerator = <IdGenerator>{}
+      const replyRepository = new ReplyRepositoryPostgres(pool, idGenerator)
+
+      return expect(replyRepository.getReplyById('dicoding')).resolves.toStrictEqual(undefined)
+    })
+
+    it('should return ReplyDTO when reply is found', async () => {
+      const userId = 'user-123'
+      const registerUsername = 'asep'
+      await UsersTableTestHelper.addUser({ id: userId, username: registerUsername })
+
+      const threadId = 'thread-123'
+      await ThreadsTableTestHelper.createThread(userId, { threadId })
+
+      const commentId = 'comment-123'
+      await CommentsTableTestHelper.createComment(userId, threadId, { commentId })
+
+      const replyId = 'reply-123'
+      const replyContent = 'sebuah balasan'
+      await ReplyTableTestHelper.createReply(userId, commentId, { replyId, content: replyContent })
+
+      const idGenerator = <IdGenerator>{}
+      const replyRepository = new ReplyRepositoryPostgres(pool, idGenerator)
+
+      const reply = await replyRepository.getReplyById(replyId)
+
+      expect(reply?.id).toStrictEqual(replyId)
+      expect(reply?.userId).toStrictEqual(userId)
+      expect(reply?.commentId).toStrictEqual(commentId)
+      expect(reply?.content).toStrictEqual(replyContent)
+      expect(reply?.isDeleted).toStrictEqual(false)
+      expect(reply?.username).toStrictEqual(registerUsername)
+    })
+  })
+
+  describe('softDeleteReply', () => {
+    it('should soft delete reply properly', async () => {
+      const registerUserId = 'user-123'
+      const registerUsername = 'asep'
+      await UsersTableTestHelper.addUser({ id: registerUserId, username: registerUsername })
+
+      const threadId = 'thread-123'
+      await ThreadsTableTestHelper.createThread(registerUserId, { threadId })
+
+      const commentId = 'comment-123'
+      await CommentsTableTestHelper.createComment(registerUserId, threadId, { commentId })
+
+      const replyId = 'reply-123'
+      const replyContent = 'sebuah balasan'
+      await ReplyTableTestHelper.createReply(registerUserId, commentId, { replyId, content: replyContent })
+
+      const idGenerator = <IdGenerator>{}
+      const replyRepository = new ReplyRepositoryPostgres(pool, idGenerator)
+
+      await replyRepository.softDeleteReply(replyId)
+
+      const reply = await replyRepository.getReplyById(replyId)
+
+      expect(reply?.id).toStrictEqual(replyId)
+      expect(reply?.userId).toStrictEqual(registerUserId)
+      expect(reply?.commentId).toStrictEqual(commentId)
+      expect(reply?.content).toStrictEqual(replyContent)
+      expect(reply?.isDeleted).toStrictEqual(true)
+      expect(reply?.username).toStrictEqual(registerUsername)
+    })
+  })
 })
