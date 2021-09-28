@@ -21,12 +21,15 @@ class DomainErrorTranslator {
     'NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat komentar baru karena properti yang dibutuhkan tidak ada'),
     'NEW_COMMENT.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat membuat komentar baru karena thread tidak valid'),
     'DELETE_COMMENT.CANNOT_WRITE_THIS_RESOURCE': new AuthorizationError('tidak dapat menghapus komentar ini akses tidak valid'),
-    'DELETE_COMMENT.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus komentar karena thread komentar tidak ada'),
+    'DELETE_COMMENT.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus komentar karena komentar tidak ada'),
     'NEW_REPLY.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat balasan baru karena properti yang dibutuhkan tidak ada'),
     'NEW_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat membuat balasan baru karena tipe data tidak sesuai'),
-    'NEW_REPLY.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat membuat balasan baru karena koemntar tidak  tidak valid'),
-    'NEW_REPLY.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat membuat balasan baru karena thread tidak  tidak valid')
-
+    'NEW_REPLY.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat membuat balasan baru karena komentar tidak  valid'),
+    'NEW_REPLY.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat membuat balasan baru karena thread tidak valid'),
+    'DELETE_REPLY.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus balasan karena thread tidak ada'),
+    'DELETE_REPLY.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus balasan karena komentar ada'),
+    'DELETE_REPLY.REPLY_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus balasan karena balasan ada'),
+    'DELETE_REPLY.CANNOT_WRITE_THIS_RESOURCE': new AuthorizationError('tidak dapat menghapus balasan ini akses tidak valid')
   }
 
   static translate (error: Error) {
