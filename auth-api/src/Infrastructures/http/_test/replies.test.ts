@@ -52,4 +52,36 @@ describe('/threads/{threadId}/comments/{commentId}/replies endpoint', () => {
       expect(addedReply.owner).toStrictEqual(userId)
     })
   })
+
+  describe('when delete /threads/{threadId}/comments/{commentId}/replies/{replyId}', () => {
+    it('should response 200', async () => {
+      const userId = 'user-123'
+      const accessTokenThreadCreator = await LoginTestHelper.getUserAccessToken(userId)
+
+      const threadId = 'thread-123'
+      await ThreadsTableTestHelper.createThread(userId, { threadId })
+
+      const commentId = 'comment-123'
+      await CommentsTableTestHelper.createComment(userId, threadId, { commentId })
+
+      const replyId = 'reply-123'
+      await ReplyTableTestHelper.createReply(userId, commentId, { replyId })
+
+      const replyPayload = {
+        content: 'sebuah komentar'
+      }
+
+      const server = await createServer(container)
+      const deleteReplyResponse = await server.inject({
+        method: 'DELETE',
+        url: `/threads/${threadId}/comments/${commentId}/replies/${replyId}`,
+        payload: replyPayload,
+        headers: {
+          Authorization: `Bearer ${accessTokenThreadCreator}`
+        }
+      })
+
+      expect(deleteReplyResponse.statusCode).toStrictEqual(200)
+    })
+  })
 })
