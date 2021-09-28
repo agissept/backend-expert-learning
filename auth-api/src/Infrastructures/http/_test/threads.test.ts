@@ -143,6 +143,19 @@ describe('/threads endpoint', () => {
         }
       })
 
+      const firstReplyPayload = {
+        content: 'sebuah balasan'
+      }
+      const firstReplyResponse = await server.inject({
+        method: 'POST',
+        url: `/threads/${threadId}/comments/${secondCommentId}/replies`,
+        payload: firstReplyPayload,
+        headers: {
+          Authorization: `Bearer ${accessTokenCommentCreator}`
+        }
+      })
+      const firstReplyId = JSON.parse(firstReplyResponse.payload).data.addedReply.id
+
       const getThreadResponse = await server.inject({
         method: 'GET',
         url: `/threads/${threadId}`
@@ -156,12 +169,18 @@ describe('/threads endpoint', () => {
         comments: [{
           id: secondCommentId,
           username: commentCreatorUsername,
-          content: secondCommentPayload.content
+          content: secondCommentPayload.content,
+          replies: [{
+            id: firstReplyId,
+            username: commentCreatorUsername,
+            content: firstReplyPayload.content
+          }]
         },
         {
           id: firstCommentId,
           username: commentCreatorUsername,
-          content: '**komentar telah dihapus**'
+          content: '**komentar telah dihapus**',
+          replies: []
         }]
       }
 
@@ -172,6 +191,9 @@ describe('/threads endpoint', () => {
       delete thread.date
       thread.comments.forEach((comment: any) => {
         delete comment.date
+        comment.replies.forEach((replie: any) => {
+          delete replie.date
+        })
       })
 
       expect(thread).toStrictEqual(expectedThread)

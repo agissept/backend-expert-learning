@@ -82,6 +82,17 @@ class CommentRepositoryPostgres implements CommentRepository {
 
       return commentId
     }
+
+    async isCommentHasCreated (commentId: string): Promise<boolean> {
+      const query = {
+        text: 'SELECT id FROM comments WHERE id = $1',
+        values: [commentId]
+      }
+
+      const { rowCount } = await this.pool.query(query)
+
+      return !!rowCount
+    }
 }
 
 export default CommentRepositoryPostgres

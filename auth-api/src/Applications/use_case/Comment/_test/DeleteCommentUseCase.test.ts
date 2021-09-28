@@ -11,7 +11,7 @@ describe('DeleteCommentUseCase', () => {
 
     const commentRepository = <CommentRepository>{}
     const threadRepository = <ThreadRepository>{}
-    commentRepository.softDeleteComment = jest.fn().mockImplementation()
+    commentRepository.softDeleteComment = jest.fn(() => Promise.resolve())
     threadRepository.isThreadHasCreated = jest.fn(() => Promise.resolve(true))
     commentRepository.getDetailComment = jest.fn(() => Promise.resolve({
       id: 'comment-1',
@@ -21,5 +21,7 @@ describe('DeleteCommentUseCase', () => {
     const deleteThreadUseCase = new DeleteCommentUseCase({ commentRepository, threadRepository })
 
     await deleteThreadUseCase.execute(userId, threadId, commentId)
+
+    expect(commentRepository.softDeleteComment).toBeCalledWith(commentId)
   })
 })

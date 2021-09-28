@@ -1,4 +1,4 @@
-import Comment from '../../../comment/model/DomainModel/Comment'
+import CommentWithReplies from '../../../comment/model/DomainModel/CommentWithReplies'
 
 interface ThreadWithComments {
     id: string,
@@ -6,7 +6,7 @@ interface ThreadWithComments {
     body: string,
     date: string
     username: string,
-    comments: Array<Comment>
+    comments: Array<CommentWithReplies>
 }
 
 export default ThreadWithComments
