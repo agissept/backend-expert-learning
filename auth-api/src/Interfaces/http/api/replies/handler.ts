@@ -2,6 +2,7 @@ import autoBind from 'auto-bind'
 import { Container } from 'instances-container'
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import AddReplyUseCase from '../../../../Applications/use_case/Reply/AddReplyUseCase'
+import DeleteReplyUseCase from '../../../../Applications/use_case/Reply/DeleteReplyUseCase'
 
 class RepliesHandler {
   private container: Container;
@@ -25,6 +26,18 @@ class RepliesHandler {
         addedReply
       }
     }).code(201)
+  }
+
+  async deleteReplyHandler ({ auth, params }: Request) {
+    const { id: userId } = auth.credentials
+    const { commentId, threadId, replyId } = params
+
+    const deleteReplyUseCase = this.container.getInstance(DeleteReplyUseCase.name) as DeleteReplyUseCase
+    await deleteReplyUseCase.execute(userId as string, threadId, commentId, replyId)
+    return {
+      status: 'success',
+      message: 'replies berhasil dihapus'
+    }
   }
 }
 
