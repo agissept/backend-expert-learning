@@ -59,14 +59,6 @@ const createServer = async (container: Container) => {
     }
   ])
 
-  await server.route({
-    method: 'GET',
-    path: '/',
-    handler: () => ({
-      value: 'Hello world!'
-    })
-  })
-
   server.ext('onPreResponse', (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request
@@ -92,7 +84,6 @@ const createServer = async (container: Container) => {
         status: 'error',
         message: 'terjadi kegagalan pada server kami'
       })
-      console.log(response)
       newResponse.code(500)
       return newResponse
     }
