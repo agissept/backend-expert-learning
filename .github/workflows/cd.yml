@@ -18,10 +18,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            ls
             cd ~/backend-expert-learning/auth-api
-            ls
             git pull origin master
+            git status 
+            git log  --pretty=oneline | tail -n 10 
             yarn install
             yarn migrate up
             pm2 restart auth-api
