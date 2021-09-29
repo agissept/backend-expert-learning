@@ -2,6 +2,7 @@ import CommentDTO from '../../../model/RepositoryModel/CommentDTO'
 import ReplyDTO from '../../../../replies/model/ReplyDTO'
 import CommentWithReplies from '../../../model/DomainModel/CommentWithReplies'
 import GetCommentsWithRepliesAggregate from '../GetCommentsWithRepliesAggregate'
+import LikedCommentsCount from '../../../../likes/model/LikedCommentsCount'
 
 describe('GetCommentsWithRepliesFactory', () => {
   it('should return right content when deleted comment is true', () => {
@@ -20,13 +21,16 @@ describe('GetCommentsWithRepliesFactory', () => {
       date: comments[0].date,
       id: comments[0].id,
       username: comments[0].username,
+      likeCount: 0,
       replies: []
 
     }]
 
     const replies = [] as ReplyDTO[]
 
-    const getCommentWithReplies = new GetCommentsWithRepliesAggregate(replies, comments)
+    const commentsLikeCount = [] as LikedCommentsCount[]
+
+    const getCommentWithReplies = new GetCommentsWithRepliesAggregate(replies, comments, commentsLikeCount)
     const commentsWithReplies = getCommentWithReplies.get()
 
     expect(commentsWithReplies).toStrictEqual(expectedComments)
@@ -60,6 +64,7 @@ describe('GetCommentsWithRepliesFactory', () => {
       date: comments[0].date,
       id: comments[0].id,
       username: comments[0].username,
+      likeCount: 0,
       replies: [
         {
           id: replies[0].id,
@@ -69,8 +74,9 @@ describe('GetCommentsWithRepliesFactory', () => {
         }
       ]
     }]
+    const commentsLikeCount = [] as LikedCommentsCount[]
 
-    const getCommentWithReplies = new GetCommentsWithRepliesAggregate(replies, comments)
+    const getCommentWithReplies = new GetCommentsWithRepliesAggregate(replies, comments, commentsLikeCount)
     const commentsWithReplies = getCommentWithReplies.get()
 
     expect(commentsWithReplies).toStrictEqual(expectedComments)
@@ -139,6 +145,7 @@ describe('GetCommentsWithRepliesFactory', () => {
         username: comments[0].username,
         date: comments[0].date,
         content: comments[0].content,
+        likeCount: 0,
         replies: [
           {
             id: replies[0].id,
@@ -159,6 +166,7 @@ describe('GetCommentsWithRepliesFactory', () => {
         username: comments[1].username,
         date: comments[1].date,
         content: '**komentar telah dihapus**',
+        likeCount: 0,
         replies: [
           {
             id: replies[2].id,
@@ -176,7 +184,9 @@ describe('GetCommentsWithRepliesFactory', () => {
       }
     ]
 
-    const getCommentWithReplies = new GetCommentsWithRepliesAggregate(replies, comments)
+    const commentsLikeCount = [] as LikedCommentsCount[]
+
+    const getCommentWithReplies = new GetCommentsWithRepliesAggregate(replies, comments, commentsLikeCount)
     const commentsWithReplies = getCommentWithReplies.get()
 
     expect(commentsWithReplies).toStrictEqual(expectedCommentsWithReplies)
