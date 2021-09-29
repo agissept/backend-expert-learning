@@ -31,17 +31,37 @@ describe('LikeCommentFactory', () => {
     expect(() => factory.create(userId, commentId, threadId)).rejects.toThrowError('LIKE_COMMENT.THREAD_ID_IS_INVALID')
   })
 
-  it('should return LikeComment properly', async () => {
+  it('should return LikeComment properly if user not yet liked the comment', async () => {
     const dummyUserId = 'user-1'
     const dummyCommentId = 'comment-123'
     const dummyThreadId = 'thread-123'
 
     mockCommentRepository.isCommentHasCreated = jest.fn().mockImplementation(() => Promise.resolve(true))
     mockThreadRepository.isThreadHasCreated = jest.fn().mockImplementation(() => Promise.resolve(true))
+    mockLikeCommentRepository.isUserHasLikedTheComment = jest.fn(() => Promise.resolve(false))
 
     const likeComment = {
       userId: dummyUserId,
-      commentId: dummyCommentId
+      commentId: dummyCommentId,
+      isLiked: false
+    }
+
+    await expect(factory.create(dummyUserId, dummyCommentId, dummyThreadId)).resolves.toStrictEqual(likeComment)
+  })
+
+  it('should return LikeComment properly if user has been liked the comment', async () => {
+    const dummyUserId = 'user-1'
+    const dummyCommentId = 'comment-123'
+    const dummyThreadId = 'thread-123'
+
+    mockCommentRepository.isCommentHasCreated = jest.fn().mockImplementation(() => Promise.resolve(true))
+    mockThreadRepository.isThreadHasCreated = jest.fn().mockImplementation(() => Promise.resolve(true))
+    mockLikeCommentRepository.isUserHasLikedTheComment = jest.fn(() => Promise.resolve(true))
+
+    const likeComment = {
+      userId: dummyUserId,
+      commentId: dummyCommentId,
+      isLiked: true
     }
 
     await expect(factory.create(dummyUserId, dummyCommentId, dummyThreadId)).resolves.toStrictEqual(likeComment)

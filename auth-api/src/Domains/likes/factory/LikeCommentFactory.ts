@@ -15,17 +15,23 @@ class LikeCommentFactory {
 
     async create (userId: string, commentId: string, threadId: string): Promise<LikeComment> {
       if (!await this.threadRepository.isThreadHasCreated(threadId)) {
-        throw new Error('NEW_REPLY.THREAD_ID_IS_INVALID')
+        throw new Error('LIKE_COMMENT.THREAD_ID_IS_INVALID')
       }
 
       if (!await this.commentRepository.isCommentHasCreated(commentId)) {
-        throw new Error('NEW_REPLY.COMMENT_ID_IS_INVALID')
+        throw new Error('LIKE_COMMENT.COMMENT_ID_IS_INVALID')
       }
 
-      return {
+      const likeComment: LikeComment = {
         userId,
-        commentId
+        commentId,
+        isLiked: false
       }
+      if (await this.likeCommentRepository.isUserHasLikedTheComment(likeComment)) {
+        likeComment.isLiked = true
+      }
+
+      return likeComment
     }
 }
 
