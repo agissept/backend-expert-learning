@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./auth_api
+        working-directory: ./auth-api
 
     strategy:
       matrix:
