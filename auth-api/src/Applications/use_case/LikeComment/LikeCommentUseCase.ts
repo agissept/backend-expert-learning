@@ -17,7 +17,11 @@ class LikeCommentUseCase {
     async execute (userId: string, threadId: string, commentId: string) {
       const likeCommentFactory = new LikeCommentFactory(this.commentRepository, this.threadRepository, this.likeCommentRepository)
       const likeComment = await likeCommentFactory.create(userId, commentId, threadId)
-      await this.likeCommentRepository.likeComment(likeComment)
+      if (likeComment.isLiked) {
+        await this.likeCommentRepository.unlikeComment(likeComment)
+      } else {
+        await this.likeCommentRepository.likeComment(likeComment)
+      }
     }
 }
 
