@@ -4,6 +4,7 @@ import LoginTestHelper from '../../../../tests/LoginTestHelper'
 import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper'
 import AuthenticationsTableTestHelper from '../../../../tests/AuthenticationsTableTestHelper'
 import pool from '../../database/postgres/pool'
+import LikeCommentsTableTestHelper from '../../../../tests/LikeCommentsTableTestHelper'
 
 describe('/threads endpoint', () => {
   afterEach(async () => {
@@ -135,6 +136,9 @@ describe('/threads endpoint', () => {
       const firstCommentId = JSON.parse(firstCommentResponse.payload).data.addedComment.id
       const secondCommentId = JSON.parse(secondCommentResponse.payload).data.addedComment.id
 
+      await LikeCommentsTableTestHelper.likeComment(commentCreatorId, secondCommentId)
+      await LikeCommentsTableTestHelper.likeComment(commentCreatorId, firstCommentId)
+
       await server.inject({
         method: 'DELETE',
         url: `/threads/${threadId}/comments/${firstCommentId}`,
@@ -170,6 +174,7 @@ describe('/threads endpoint', () => {
           id: secondCommentId,
           username: commentCreatorUsername,
           content: secondCommentPayload.content,
+          likeCount: 1,
           replies: [{
             id: firstReplyId,
             username: commentCreatorUsername,
@@ -178,6 +183,7 @@ describe('/threads endpoint', () => {
         },
         {
           id: firstCommentId,
+          likeCount: 1,
           username: commentCreatorUsername,
           content: '**komentar telah dihapus**',
           replies: []

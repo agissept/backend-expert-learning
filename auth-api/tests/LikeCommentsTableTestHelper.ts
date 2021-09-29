@@ -12,6 +12,14 @@ const LikeCommentsTableTestHelper = {
   },
   async cleanTable () {
     await pool.query('TRUNCATE TABLE like_comments CASCADE')
+  },
+  async likeComment (userId: string, commentId: string) {
+    const query = {
+      text: 'INSERT INTO like_comments VALUES($1, $2)',
+      values: [userId, commentId]
+    }
+
+    await pool.query(query)
   }
 }
 export default LikeCommentsTableTestHelper
