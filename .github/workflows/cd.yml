@@ -21,7 +21,7 @@ jobs:
             cd ~/backend-expert-learning/auth-api
             git pull origin master
             git status 
-            git log  --pretty=oneline | tail -n 10 
+            git log  --reverse --pretty=oneline | tail -n 10 
             yarn install
             yarn migrate up
             pm2 restart auth-api
