@@ -18,7 +18,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            ls
             cd ~/backend-expert-learning/auth-api
+            ls
             git pull origin master
             yarn install
             yarn migrate up
