@@ -6,6 +6,7 @@ import CommentRepository from '../../../../comment/CommentRepository'
 import ReplyRepository from '../../../../replies/ReplyRepository'
 import ReplyDTO from '../../../../replies/model/ReplyDTO'
 import ThreadWithComments from '../../../model/DomainModel/ThreadWithComments'
+import LikeCommentRepository from '../../../../likes/LikeCommentRepository'
 
 describe('GetDetailThreadFactory', () => {
   it('should throw error when thread is not found', async () => {
@@ -13,8 +14,9 @@ describe('GetDetailThreadFactory', () => {
     const threadRepository = <ThreadRepository>{}
     const commentRepository = <CommentRepository>{}
     const replyRepository = <ReplyRepository>{}
+    const likeCommentRepository = <LikeCommentRepository>{}
 
-    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository, commentRepository, replyRepository)
+    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository, commentRepository, replyRepository, likeCommentRepository)
     threadRepository.getDetailThread = jest.fn(() => Promise.resolve(undefined as unknown as ThreadDTO))
 
     await expect(getDetailThreadFactory.create(threadId)).rejects.toThrowError('GET_DETAIL_THREAD.THREAD_IS_NOT_FOUND')
@@ -99,6 +101,7 @@ describe('GetDetailThreadFactory', () => {
           username: comments[0].username,
           date: comments[0].date,
           content: comments[0].content,
+          likeCount: 0,
           replies: [
             {
               id: replies[0].id,
@@ -119,6 +122,7 @@ describe('GetDetailThreadFactory', () => {
           username: comments[1].username,
           date: comments[1].date,
           content: '**komentar telah dihapus**',
+          likeCount: 0,
           replies: [
             {
               id: replies[2].id,
@@ -139,10 +143,13 @@ describe('GetDetailThreadFactory', () => {
     const threadRepository = <ThreadRepository>{}
     const commentRepository = <CommentRepository>{}
     const replyRepository = <ReplyRepository>{}
-    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository, commentRepository, replyRepository)
+    const likeCommentRepository = <LikeCommentRepository>{}
+
+    const getDetailThreadFactory = new GetDetailThreadFactory(threadRepository, commentRepository, replyRepository, likeCommentRepository)
     threadRepository.getDetailThread = jest.fn(() => Promise.resolve(thread))
     commentRepository.getCommentsByThreadId = jest.fn(() => Promise.resolve(comments))
     replyRepository.getRepliesByCommentIds = jest.fn(() => Promise.resolve(replies))
+    likeCommentRepository.getLikeCountCommentsByCommentIds = jest.fn(() => Promise.resolve([]))
 
     const threadWithComments = await getDetailThreadFactory.create(threadId)
     expect(threadWithComments).toStrictEqual(expectedThread)

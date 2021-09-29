@@ -29,7 +29,9 @@ class DomainErrorTranslator {
     'DELETE_REPLY.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus balasan karena thread tidak ada'),
     'DELETE_REPLY.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus balasan karena komentar ada'),
     'DELETE_REPLY.REPLY_ID_IS_INVALID': new NotFoundError('tidak dapat menghapus balasan karena balasan ada'),
-    'DELETE_REPLY.CANNOT_WRITE_THIS_RESOURCE': new AuthorizationError('tidak dapat menghapus balasan ini akses tidak valid')
+    'DELETE_REPLY.CANNOT_WRITE_THIS_RESOURCE': new AuthorizationError('tidak dapat menghapus balasan ini akses tidak valid'),
+    'LIKE_COMMENT.THREAD_ID_IS_INVALID': new NotFoundError('tidak dapat menyukai komentar karena thread tidak ada'),
+    'LIKE_COMMENT.COMMENT_ID_IS_INVALID': new NotFoundError('tidak dapat menyukai komentar karena komentar ada')
   }
 
   static translate (error: Error) {

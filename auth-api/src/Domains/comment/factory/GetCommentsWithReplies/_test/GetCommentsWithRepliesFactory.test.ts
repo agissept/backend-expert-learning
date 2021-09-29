@@ -5,6 +5,7 @@ import ReplyRepository from '../../../../replies/ReplyRepository'
 import CommentDTO from '../../../model/RepositoryModel/CommentDTO'
 import ReplyDTO from '../../../../replies/model/ReplyDTO'
 import CommentWithReplies from '../../../model/DomainModel/CommentWithReplies'
+import LikeCommentRepository from '../../../../likes/LikeCommentRepository'
 
 describe('GetCommentsWithRepliesFactory', () => {
   it('should return comments with replies', async () => {
@@ -70,6 +71,7 @@ describe('GetCommentsWithRepliesFactory', () => {
         username: comments[0].username,
         date: comments[0].date,
         content: comments[0].content,
+        likeCount: 0,
         replies: [
           {
             id: replies[0].id,
@@ -90,6 +92,7 @@ describe('GetCommentsWithRepliesFactory', () => {
         username: comments[1].username,
         date: comments[1].date,
         content: '**komentar telah dihapus**',
+        likeCount: 0,
         replies: [
           {
             id: replies[2].id,
@@ -113,9 +116,11 @@ describe('GetCommentsWithRepliesFactory', () => {
 
     const replyRepository = <ReplyRepository>{}
     const commentRepository = <CommentRepository>{}
-    const factory = new GetCommentsWithRepliesFactory(commentRepository, replyRepository)
+    const likeCommentRepository = <LikeCommentRepository>{}
+    const factory = new GetCommentsWithRepliesFactory(commentRepository, replyRepository, likeCommentRepository)
     commentRepository.getCommentsByThreadId = jest.fn(() => Promise.resolve(comments))
     replyRepository.getRepliesByCommentIds = jest.fn(() => Promise.resolve(replies))
+    likeCommentRepository.getLikeCountCommentsByCommentIds = jest.fn(() => Promise.resolve([]))
 
     const commentsWithReplies = await factory.create(threadId)
     expect(commentsWithReplies).toStrictEqual(expectedCommentsWithReplies)

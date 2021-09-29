@@ -6,6 +6,7 @@ import ThreadWithComments from '../../../../Domains/threads/model/DomainModel/Th
 import CommentRepository from '../../../../Domains/comment/CommentRepository'
 import ReplyRepository from '../../../../Domains/replies/ReplyRepository'
 import ReplyDTO from '../../../../Domains/replies/model/ReplyDTO'
+import LikeCommentRepository from '../../../../Domains/likes/LikeCommentRepository'
 
 describe('GetDetailThreadUseCase', () => {
   it('should orchestrating the get detail thread action correctly ', async () => {
@@ -87,6 +88,7 @@ describe('GetDetailThreadUseCase', () => {
           username: comments[0].username,
           date: comments[0].date,
           content: comments[0].content,
+          likeCount: 0,
           replies: [
             {
               id: replies[0].id,
@@ -107,6 +109,7 @@ describe('GetDetailThreadUseCase', () => {
           username: comments[1].username,
           date: comments[1].date,
           content: '**komentar telah dihapus**',
+          likeCount: 0,
           replies: [
             {
               id: replies[2].id,
@@ -128,10 +131,12 @@ describe('GetDetailThreadUseCase', () => {
     const threadRepository = <ThreadRepository>{}
     const commentRepository = <CommentRepository>{}
     const replyRepository = <ReplyRepository>{}
-    const getDetailThreadUseCase = new GetDetailThreadUseCase({ threadRepository, commentRepository, replyRepository })
+    const likeCommentRepository = <LikeCommentRepository>{}
+    const getDetailThreadUseCase = new GetDetailThreadUseCase({ threadRepository, commentRepository, replyRepository, likeCommentRepository })
     threadRepository.getDetailThread = jest.fn(() => Promise.resolve(thread))
     commentRepository.getCommentsByThreadId = jest.fn(() => Promise.resolve(comments))
     replyRepository.getRepliesByCommentIds = jest.fn(() => Promise.resolve(replies))
+    likeCommentRepository.getLikeCountCommentsByCommentIds = jest.fn(() => Promise.resolve([]))
     const detailThread = await getDetailThreadUseCase.execute(threadId)
 
     expect(expectedThread).toStrictEqual(detailThread)

@@ -5,6 +5,7 @@ interface CommentWithReplies {
     username: string,
     date: string,
     content: string,
+    likeCount: number,
     replies: Reply[]
 }
 
