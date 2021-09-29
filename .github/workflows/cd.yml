@@ -19,7 +19,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ~/backend-expert-learning/auth-api
-            git pull origin master
+            git pull origin submission-2
             git status 
             git log  --reverse --pretty=oneline | tail -n 10 
             yarn install
