@@ -63,7 +63,7 @@ describe('LikeCommentRepository', () => {
     expect(likes).toHaveLength(0)
   })
 
-  describe('isUserHasLikedTheComment function', function () {
+  describe('isUserHasLikedTheComment function', () => {
     it('should return true when comment is liked', async () => {
       const userId = 'user-123'
       await UsersTableTestHelper.addUser({ id: userId })
@@ -101,6 +101,63 @@ describe('LikeCommentRepository', () => {
 
       const isUserHasLikedTheComment = await likeCommentRepository.isUserHasLikedTheComment(likeComment)
       expect(isUserHasLikedTheComment).toStrictEqual(false)
+    })
+  })
+
+  describe('getLikeCountCommentsByCommentIds', () => {
+    it('should get likecount and commentid properly', async () => {
+      const firstUser = 'user-123'
+      await UsersTableTestHelper.addUser({ id: firstUser })
+
+      const threadId = 'thread-123'
+      await ThreadsTableTestHelper.createThread(firstUser, { threadId })
+
+      const firstCommentId = 'comment-123'
+      await CommentsTableTestHelper.createComment(firstUser, threadId, { commentId: firstCommentId })
+      const secondCommentId = 'comment-2'
+      await CommentsTableTestHelper.createComment(firstUser, threadId, { commentId: secondCommentId })
+
+      const firstLikeComment = {
+        userId: firstUser,
+        commentId: firstCommentId,
+        isLiked: false
+      }
+
+      const secondUserId = 'user-2'
+      await UsersTableTestHelper.addUser({ id: secondUserId, username: 'udin' })
+
+      const secondLikeComment = {
+        userId: secondUserId,
+        commentId: firstCommentId,
+        isLiked: false
+      }
+
+      const thirdUserId = 'user-3'
+      await UsersTableTestHelper.addUser({ id: thirdUserId, username: 'asep' })
+
+      const thirdLikeComment = {
+        userId: thirdUserId,
+        commentId: secondCommentId,
+        isLiked: false
+      }
+
+      const likeCommentRepository = new LikeCommentRepositoryPostgres(pool)
+
+      await likeCommentRepository.likeComment(firstLikeComment)
+      await likeCommentRepository.likeComment(secondLikeComment)
+      await likeCommentRepository.likeComment(thirdLikeComment)
+
+      const likeComment = await likeCommentRepository.getLikeCountCommentsByCommentIds([firstCommentId, secondCommentId])
+      expect(likeComment).toStrictEqual([
+        {
+          commentId: firstCommentId,
+          likeCount: 2
+        },
+        {
+          commentId: secondCommentId,
+          likeCount: 1
+        }
+      ])
     })
   })
 })

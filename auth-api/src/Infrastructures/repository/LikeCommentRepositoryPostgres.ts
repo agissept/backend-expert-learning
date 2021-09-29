@@ -1,6 +1,7 @@
 import LikeCommentRepository from '../../Domains/likes/LikeCommentRepository'
 import LikeComment from '../../Domains/likes/model/LikeComment'
 import { Pool } from 'pg'
+import LikedCommentsCount from '../../Domains/likes/model/LikedCommentsCount'
 
 class LikeCommentRepositoryPostgres implements LikeCommentRepository {
     private pool: Pool;
@@ -35,6 +36,23 @@ class LikeCommentRepositoryPostgres implements LikeCommentRepository {
       }
 
       await this.pool.query(query)
+    }
+
+    async getLikeCountCommentsByCommentIds (commentIds: string[]): Promise<LikedCommentsCount[]> {
+      const query = {
+        text: `SELECT comment_id, count(user_id) AS like_count
+               FROM like_comments 
+               WHERE comment_id = ANY($1::text[])
+               GROUP BY comment_id`,
+        values: [commentIds]
+      }
+
+      const { rows } = await this.pool.query(query)
+
+      return rows.map((row) => ({
+        commentId: row.comment_id,
+        likeCount: parseInt(row.like_count)
+      }))
     }
 }
 
