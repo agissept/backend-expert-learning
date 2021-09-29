@@ -24,6 +24,8 @@ import GetDetailThreadUseCase from '../Applications/use_case/Thread/GetDetailThr
 import ReplyRepositoryPostgres from './repository/ReplyRepositoryPostgres'
 import AddReplyUseCase from '../Applications/use_case/Reply/AddReplyUseCase'
 import DeleteReplyUseCase from '../Applications/use_case/Reply/DeleteReplyUseCase'
+import LikeCommentUseCase from '../Applications/use_case/LikeComment/LikeCommentUseCase'
+import LikeCommentRepositoryPostgres from './repository/LikeCommentRepositoryPostgres'
 
 const container = createContainer()
 
@@ -125,6 +127,17 @@ container.register([
         },
         {
           internal: 'IdGenerator'
+        }
+      ]
+    }
+  },
+  {
+    key: 'LikeCommentRepository',
+    Class: LikeCommentRepositoryPostgres,
+    parameter: {
+      dependencies: [
+        {
+          concrete: pool
         }
       ]
     }
@@ -311,7 +324,29 @@ container.register([
         }
       ]
     }
+  },
+  {
+    key: LikeCommentUseCase.name,
+    Class: LikeCommentUseCase,
+    parameter: {
+      injectType: 'destructuring',
+      dependencies: [
+        {
+          name: 'likeCommentRepository',
+          internal: 'LikeCommentRepository'
+        },
+        {
+          name: 'commentRepository',
+          internal: 'CommentRepository'
+        },
+        {
+          name: 'threadRepository',
+          internal: 'ThreadRepository'
+        }
+      ]
+    }
   }
+
 ])
 
 export default container
