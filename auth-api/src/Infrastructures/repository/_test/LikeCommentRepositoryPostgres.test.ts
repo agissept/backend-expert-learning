@@ -17,8 +17,54 @@ describe('LikeCommentRepository', () => {
     await pool.end()
   })
 
-  describe('likeComment function', () => {
-    it('should like comment properly', async () => {
+  it('should like comment properly', async () => {
+    const userId = 'user-123'
+    await UsersTableTestHelper.addUser({ id: userId })
+
+    const threadId = 'thread-123'
+    await ThreadsTableTestHelper.createThread(userId, { threadId })
+
+    const commentId = 'comment-123'
+    await CommentsTableTestHelper.createComment(userId, threadId, { commentId })
+
+    const likeComment = {
+      userId,
+      commentId,
+      isLiked: false
+    }
+
+    const likeCommentRepository = new LikeCommentRepositoryPostgres(pool)
+    await likeCommentRepository.likeComment(likeComment)
+
+    const likes = await LikeCommentsTableTestHelper.findLikeComments(userId, commentId)
+    expect(likes).toHaveLength(1)
+  })
+
+  it('should unlike comment properly', async () => {
+    const userId = 'user-123'
+    await UsersTableTestHelper.addUser({ id: userId })
+
+    const threadId = 'thread-123'
+    await ThreadsTableTestHelper.createThread(userId, { threadId })
+
+    const commentId = 'comment-123'
+    await CommentsTableTestHelper.createComment(userId, threadId, { commentId })
+
+    const likeComment = {
+      userId,
+      commentId,
+      isLiked: false
+    }
+
+    const likeCommentRepository = new LikeCommentRepositoryPostgres(pool)
+    await likeCommentRepository.unlikeComment(likeComment)
+
+    const likes = await LikeCommentsTableTestHelper.findLikeComments(userId, commentId)
+    expect(likes).toHaveLength(0)
+  })
+
+  describe('isUserHasLikedTheComment function', function () {
+    it('should return true when comment is liked', async () => {
       const userId = 'user-123'
       await UsersTableTestHelper.addUser({ id: userId })
 
@@ -30,14 +76,31 @@ describe('LikeCommentRepository', () => {
 
       const likeComment = {
         userId,
-        commentId
+        commentId,
+        isLiked: false
       }
 
       const likeCommentRepository = new LikeCommentRepositoryPostgres(pool)
       await likeCommentRepository.likeComment(likeComment)
 
-      const likes = await LikeCommentsTableTestHelper.findLikeComments(userId, commentId)
-      expect(likes).toHaveLength(1)
+      const isUserHasLikedTheComment = await likeCommentRepository.isUserHasLikedTheComment(likeComment)
+      expect(isUserHasLikedTheComment).toStrictEqual(true)
+    })
+
+    it('should return false when comment is not liked', async () => {
+      const userId = 'user-123'
+      const commentId = 'comment-123'
+
+      const likeComment = {
+        userId,
+        commentId,
+        isLiked: false
+      }
+
+      const likeCommentRepository = new LikeCommentRepositoryPostgres(pool)
+
+      const isUserHasLikedTheComment = await likeCommentRepository.isUserHasLikedTheComment(likeComment)
+      expect(isUserHasLikedTheComment).toStrictEqual(false)
     })
   })
 })
